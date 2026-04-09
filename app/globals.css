@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-fraunces), ui-serif, Georgia, serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -127,4 +127,36 @@
   html {
     @apply font-sans;
   }
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+}
+
+/* GPAA store–aligned shell: white body, whisper of warm neutral at top (earth accent only) */
+.brand-surface {
+  background-color: var(--brand-bg);
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in oklch, #c4a574 6%, #ffffff) 0%,
+    #ffffff 28%,
+    #ffffff 100%
+  );
+  color: var(--brand-body);
+}
+
+/* Garrett (garrett.com): greys / whites / yellow — neutral top fade instead of gold tint */
+.brand-surface-garrett {
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in oklch, #332e2b 5%, #ffffff) 0%,
+    #ffffff 30%,
+    #ffffff 100%
+  );
+}
+
+/* Leaflet + Tailwind: preflight’s img { max-width: 100% } breaks tiles & default pin icons */
+.leaflet-container img.leaflet-marker-icon,
+.leaflet-container img.leaflet-marker-shadow,
+.leaflet-container .leaflet-tile {
+  max-width: none !important;
 }

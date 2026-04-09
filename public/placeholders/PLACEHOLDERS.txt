@@ -1,0 +1,19 @@
+Gold Life — image placeholders
+==============================
+
+Put files in this folder and point to them from lib/placeholders.ts.
+
+Accepted formats: SVG, PNG, JPG/JPEG, WebP, GIF (GIF animation is preserved when you
+use next/image with unoptimized for .gif — the app does this automatically).
+
+If you change a filename or extension, update the matching path in lib/placeholders.ts.
+
+Hero images: placeholderHero in lib/placeholders.ts (also used from lib/brands.ts).
+
+Story strip: Panel 1 uses the same file as placeholderHero for the active brand (Minelab,
+Garrett, Gold Cube, or default). Panels 2–3 use placeholderStoryStrip (story-strip-02.jpg,
+story-strip-03.jpg).
+
+Deep dives: placeholderDeepDive — Minelab, Garrett, Gold Cube keys.
+
+Recommended: ~1600px wide for heroes, ~1200px for story strip, ~800px for deep dives.
