@@ -10,7 +10,7 @@
  */
 
 export const placeholderHero = {
-  default: "/placeholders/hero-default.svg",
+  default: "/placeholders/hero-default.webp",
   minelab: "/placeholders/hero-minelab.webp",
   garrett: "/placeholders/hero-garrett.jpg",
   goldcube: "/placeholders/hero-goldcube.png",
