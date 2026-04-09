@@ -10,6 +10,7 @@ import { GoldMonsterDeepDive } from "@/components/brand/GoldMonsterDeepDive";
 import { GoldProspectorsMagazineSection } from "@/components/brand/GoldProspectorsMagazineSection";
 import { GpaaClaimsAndGuide } from "@/components/brand/GpaaClaimsAndGuide";
 import { Hero } from "@/components/brand/Hero";
+import { MailchimpSignupStrip } from "@/components/mailchimp/MailchimpSignupStrip";
 import { KitShowcase } from "@/components/brand/KitShowcase";
 import { MemberReviews } from "@/components/brand/MemberReviews";
 import { ProofMetrics } from "@/components/brand/ProofMetrics";
@@ -32,6 +33,7 @@ export default async function BrandHomePage({
   return (
     <>
       <Hero brand={config} product={product} />
+      <MailchimpSignupStrip />
       <TrustStrip />
       <ProofMetrics />
       <Benefits />

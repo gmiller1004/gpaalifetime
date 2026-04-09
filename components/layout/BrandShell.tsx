@@ -8,6 +8,7 @@ import { VariantPreferenceProvider } from "@/components/brand/variant-preference
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { ExitIntentModal } from "@/components/mailchimp/ExitIntentModal";
 import { GpaLifetimeValueStrip } from "@/components/layout/GpaLifetimeValueStrip";
 import { PromoBar } from "@/components/layout/PromoBar";
 import { cn } from "@/lib/utils";
@@ -73,6 +74,7 @@ export function BrandShell({
           <main className="flex-1">{children}</main>
           <Footer brand={brand} siteHost={siteHost} />
           <CartDrawer />
+          {!isLegalPage ? <ExitIntentModal /> : null}
         </div>
       </VariantPreferenceProvider>
     </CartProvider>
