@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async rewrites() {
+    return [
+      /** Legacy / crawler requests for favicon.ico → same asset as metadata icons */
+      { source: "/favicon.ico", destination: "/brands/gpaa-gold-life.png" },
+    ];
+  },
   images: {
     remotePatterns: [
       {

@@ -19,6 +19,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const faviconSrc = "/brands/gpaa-gold-life.png";
+
 export const metadata: Metadata = {
   title: {
     default: "GPAA Gold Life | Lifetime Membership Bundles",
@@ -29,6 +31,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://gpaalifetime.com"
   ),
+  icons: {
+    icon: [{ url: faviconSrc, type: "image/png", sizes: "1200x1200" }],
+    apple: [{ url: faviconSrc, type: "image/png", sizes: "180x180" }],
+    shortcut: faviconSrc,
+  },
 };
 
 export default function RootLayout({
