@@ -1,11 +1,14 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+
 import type { BrandConfig } from "@/lib/brands";
 import { CartProvider } from "@/components/cart/cart-provider";
 import { VariantPreferenceProvider } from "@/components/brand/variant-preference";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { GpaLifetimeValueStrip } from "@/components/layout/GpaLifetimeValueStrip";
 import { PromoBar } from "@/components/layout/PromoBar";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +26,10 @@ export function BrandShell({
   siteHost: string;
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const isLegalPage =
+    pathname?.includes("/privacy") || pathname?.includes("/terms");
+
   const accent = brand.accentColor ?? brand.primaryColor;
   const accentFg = brand.accentForegroundColor ?? brand.secondaryColor;
 
@@ -62,6 +69,7 @@ export function BrandShell({
             <Header brand={brand} siteHost={siteHost} />
             <PromoBar />
           </div>
+          {!isLegalPage ? <GpaLifetimeValueStrip brand={brand} /> : null}
           <main className="flex-1">{children}</main>
           <Footer brand={brand} siteHost={siteHost} />
           <CartDrawer />
