@@ -51,21 +51,22 @@ const kitMetaDescription =
   "GPAA Gold Life bundles pair a lifetime GPAA membership with premium prospecting gear—secure checkout, trusted by prospectors nationwide.";
 
 export const brands: Record<BrandId, BrandConfig> = {
+  /** Apex / www — same Minelab Gold Life bundle + visuals as `minelab` subdomain. */
   default: {
     id: "default",
     slug: "default",
     productHandle: "gold-life-minelab",
-    displayName: "GPAA Gold Life",
-    tagline: "Lifetime membership. Legendary gear. One bundle.",
-    primaryColor: "#D4AF37",
+    displayName: "Minelab × Gold Life",
+    tagline: "Official Minelab partnership — find more gold.",
+    primaryColor: "#E7262A",
     secondaryColor: "#FFFFFF",
     backgroundColor: GPAA_STORE_PAGE_BG,
-    heroHeadline: "Gold Life – GPAA Lifetime Membership",
+    heroHeadline: "Gold Life – GPAA Lifetime Membership with Minelab",
     heroSubheadline:
-      "Stop piecing together tips online—get lifetime GPAA access and your Gold Monster path in one checkout.",
+      "Lifetime claims, chapters, and publications—plus the Minelab Gold Monster setup serious prospectors trust for small gold.",
     bundleName: "Minelab Gold Monster Bundle",
     bundleDescription:
-      "Everything in the Minelab Gold Life stack: full GPAA Lifetime status plus your choice of Gold Monster detector.",
+      "Your Minelab Gold Life stack: lifetime GPAA access plus the Gold Monster configuration you choose.",
     bundleItems: [
       {
         title: "GPAA Lifetime Membership",
@@ -75,17 +76,18 @@ export const brands: Record<BrandId, BrandConfig> = {
       {
         title: "Gold Monster 1000 or 2000",
         description:
-          "Ultra-sensitive VLF performance—pick the model that matches your ground and targets.",
+          "Select the VLF detector tuned for small gold in tough, mineralized ground.",
       },
       {
-        title: "Secure fulfillment",
+        title: "Field-ready fulfillment",
         description:
-          "Bundled kit components and fulfillment details confirmed at checkout.",
+          "Equipment and accessories ship according to your order confirmation.",
       },
     ],
-    logoSrc: "/brands/gpaa-gold-life.png",
-    heroImageSrc: placeholderHero.default,
-    heroImageAlt: "Prospector panning for gold in a mountain stream",
+    logoSrc: "/brands/minelab-co.svg",
+    coBrandLogoSrc: "/brands/gpaa-gold-life.png",
+    heroImageSrc: placeholderHero.minelab,
+    heroImageAlt: "Forest creek gold country at sunrise",
     metaDescription: kitMetaDescription,
   },
   minelab: {
