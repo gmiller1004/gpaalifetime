@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { BrandShell } from "@/components/layout/BrandShell";
 import { getBrandConfig, isBrandId } from "@/lib/brands";
+import { shareImageMeta } from "@/lib/share-image";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://gpaalifetime.com";
@@ -27,11 +28,13 @@ export async function generateMetadata({
       siteName: "GPAA Gold Life",
       locale: "en_US",
       type: "website",
+      images: [shareImageMeta],
     },
     twitter: {
       card: "summary_large_image",
       title: `${c.displayName} | Gold Life`,
       description: c.metaDescription,
+      images: [shareImageMeta.url],
     },
   };
 }

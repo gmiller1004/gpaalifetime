@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans, Fraunces, Geist_Mono } from "next/font/google";
 
+import { shareImageMeta } from "@/lib/share-image";
+
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -35,6 +37,13 @@ export const metadata: Metadata = {
     icon: [{ url: faviconSrc, type: "image/png", sizes: "1200x1200" }],
     apple: [{ url: faviconSrc, type: "image/png", sizes: "180x180" }],
     shortcut: faviconSrc,
+  },
+  openGraph: {
+    images: [shareImageMeta],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [shareImageMeta.url],
   },
 };
 
