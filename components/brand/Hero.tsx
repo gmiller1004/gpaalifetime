@@ -351,7 +351,11 @@ export function Hero({
                         ? "border-[var(--brand-accent)] ring-1 ring-[var(--brand-accent)]/30"
                         : "border-[var(--brand-border)] hover:border-[var(--brand-muted)]"
                     )}
-                    aria-label="Show product image"
+                    aria-label={
+                      img.altText
+                        ? `Show image: ${img.altText}`
+                        : `Show product image for ${product?.title ?? "Gold Life bundle"}`
+                    }
                     aria-pressed={active}
                   >
                     <Image

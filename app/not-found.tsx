@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
+export const metadata: Metadata = {
+  title: "Page not found",
+  description:
+    "This GPAA Gold Life page does not exist. Return to the lifetime membership bundle storefront.",
+  robots: { index: false, follow: true },
+};
 
 export default function NotFound() {
   return (

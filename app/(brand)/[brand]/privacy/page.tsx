@@ -1,12 +1,46 @@
 import type { Metadata } from "next";
 
 import { LegalDocument } from "@/components/legal/LegalDocument";
+import { getSiteUrl } from "@/lib/seo";
+import { shareImageMeta } from "@/lib/share-image";
 
-export async function generateMetadata(): Promise<Metadata> {
+const privacyDescription =
+  "GPAA Gold Life privacy policy: how we collect, use, and protect data when you shop Minelab, Garrett, and Gold Cube lifetime bundles and checkout securely.";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ brand: string }>;
+}): Promise<Metadata> {
+  void (await params);
+  const siteUrl = getSiteUrl();
   return {
     title: "Privacy Policy",
-    description:
-      "How GPAA Gold Life handles information when you use this partner bundle site.",
+    description: privacyDescription,
+    metadataBase: new URL(siteUrl),
+    alternates: { canonical: "/privacy" },
+    robots: { index: true, follow: true },
+    keywords: [
+      "GPAA Gold Life privacy",
+      "GPAA",
+      "data policy",
+      "gold prospecting store",
+    ],
+    openGraph: {
+      title: "Privacy Policy | GPAA Gold Life",
+      description: privacyDescription,
+      url: "/privacy",
+      siteName: "GPAA Gold Life",
+      locale: "en_US",
+      type: "website",
+      images: [shareImageMeta],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Privacy Policy | GPAA Gold Life",
+      description: privacyDescription,
+      images: [shareImageMeta.url],
+    },
   };
 }
 

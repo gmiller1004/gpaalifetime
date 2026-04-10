@@ -47,8 +47,18 @@ export interface BrandConfig {
 /** Aligns with GPAA store theme body (--colorBody) */
 const GPAA_STORE_PAGE_BG = "#FFFFFF";
 
-const kitMetaDescription =
-  "GPAA Gold Life bundles pair a lifetime GPAA membership with premium prospecting gear—secure checkout, trusted by prospectors nationwide.";
+/** SEO meta descriptions — unique per bundle path; keep ~150–160 characters. */
+const metaDefault =
+  "GPAA Gold Life: Minelab Gold Monster 1000 or 2000 plus GPAA Lifetime Membership. Claims access, training paydirt offers, secure checkout—official GPAA bundle store.";
+
+const metaMinelab =
+  "Minelab Gold Monster + GPAA Lifetime Membership. Choose Gold Monster 1000 or 2000, claims & member benefits, encrypted checkout—GPAA Gold Life partner bundles.";
+
+const metaGarrett =
+  "Garrett Goldmaster 24k + GPAA Lifetime Membership. Fine-gold VLF with two coils, claims & community—buy the official Garrett × Gold Life bundle online.";
+
+const metaGoldcube =
+  "Gold Cube 3-Stack Deluxe + GPAA Lifetime Membership. Concentrate placer gold faster with lifetime GPAA claims access—shop the Gold Cube × Gold Life bundle.";
 
 export const brands: Record<BrandId, BrandConfig> = {
   /** Apex / www — same Minelab Gold Life bundle + visuals as `minelab` subdomain. */
@@ -87,8 +97,9 @@ export const brands: Record<BrandId, BrandConfig> = {
     logoSrc: "/brands/minelab-co.svg",
     coBrandLogoSrc: "/brands/gpaa-gold-life.png",
     heroImageSrc: placeholderHero.minelab,
-    heroImageAlt: "Forest creek gold country at sunrise",
-    metaDescription: kitMetaDescription,
+    heroImageAlt:
+      "Prospector with metal detector in gold country — Minelab Gold Life bundle",
+    metaDescription: metaDefault,
   },
   minelab: {
     id: "minelab",
@@ -125,8 +136,9 @@ export const brands: Record<BrandId, BrandConfig> = {
     logoSrc: "/brands/minelab-co.svg",
     coBrandLogoSrc: "/brands/gpaa-gold-life.png",
     heroImageSrc: placeholderHero.minelab,
-    heroImageAlt: "Forest creek gold country at sunrise",
-    metaDescription: kitMetaDescription,
+    heroImageAlt:
+      "Prospector with metal detector in gold country — Minelab Gold Life bundle",
+    metaDescription: metaMinelab,
   },
   garrett: {
     id: "garrett",
@@ -167,8 +179,9 @@ export const brands: Record<BrandId, BrandConfig> = {
     logoSrc: "/brands/garrett-co.svg",
     coBrandLogoSrc: "/brands/gpaa-gold-life.png",
     heroImageSrc: placeholderHero.garrett,
-    heroImageAlt: "Misty mountains at dawn",
-    metaDescription: kitMetaDescription,
+    heroImageAlt:
+      "Mountain landscape at dawn — Garrett Goldmaster Gold Life bundle",
+    metaDescription: metaGarrett,
   },
   goldcube: {
     id: "goldcube",
@@ -205,8 +218,9 @@ export const brands: Record<BrandId, BrandConfig> = {
     logoSrc: "/brands/goldcube-co.png",
     coBrandLogoSrc: "/brands/gpaa-gold-life.png",
     heroImageSrc: placeholderHero.goldcube,
-    heroImageAlt: "River stones and rushing water",
-    metaDescription: kitMetaDescription,
+    heroImageAlt:
+      "River and bedrock — Gold Cube concentration Gold Life bundle",
+    metaDescription: metaGoldcube,
   },
 };
 

@@ -17,13 +17,13 @@ function buildFrames(brand: BrandConfig) {
     },
     {
       src: placeholderStoryStrip[0],
-      alt: "Forest creek at sunrise in gold country",
+      alt: "Forest creek at sunrise — GPAA claims and gold prospecting ground",
       caption:
         "Real ground — GPAA claims and leases are where you put boots and pans to work.",
     },
     {
       src: placeholderStoryStrip[1],
-      alt: "Mountain landscape at dawn",
+      alt: "Mountain landscape at dawn — GPAA Mining Guide and property access",
       caption:
         "Mining Guide & Online Property Guide — turn-by-turn access, maps, and member field notes.",
     },

@@ -28,7 +28,7 @@ export function GoldProspectorsMagazineSection() {
               <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl border border-[var(--brand-border)] bg-[var(--brand-body-dim)] shadow-md ring-1 ring-black/5">
                 <Image
                   src={placeholderMagazineMockup}
-                  alt="Gold Prospectors Magazine cover"
+                  alt="Gold Prospectors Magazine — GPAA member bi-monthly print and digital cover"
                   fill
                   className="object-cover object-center"
                   sizes="(max-width: 1024px) 260px, 280px"

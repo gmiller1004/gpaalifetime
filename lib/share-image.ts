@@ -5,5 +5,5 @@ export const shareImageMeta = {
   url: SHARE_IMAGE_PATH,
   width: 1536,
   height: 2048,
-  alt: "GPAA Gold Life — lifetime membership bundles",
+  alt: "GPAA Gold Life — prospectors with GPAA Lifetime Membership partner bundles",
 } as const;
