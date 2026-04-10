@@ -19,7 +19,7 @@ export const gpaaLifetimeKitItems: KitItem[] = [
   {
     title: "Claims & Prospecting Access",
     description:
-      "Member pathways to claims and field opportunities (per GPAA rules).",
+      "Member pathways to claims and field opportunities.",
   },
   {
     title: "Publications & Education",
@@ -40,6 +40,6 @@ export const gpaaLifetimeKitItems: KitItem[] = [
     title: "Secure Checkout",
     badge: "Secure",
     description:
-      "Industry-standard cart and checkout—cards, digital wallets, and local options where available.",
+      "Industry-standard cart and checkout—cards, digital wallets.",
   },
 ];
