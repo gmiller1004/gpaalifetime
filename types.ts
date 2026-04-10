@@ -24,6 +24,8 @@ export interface ShopifyProductVariant {
   title: string;
   availableForSale: boolean;
   price: Money;
+  /** When set and above `price`, shown as strikethrough “compare at” in the hero. */
+  compareAtPrice: Money | null;
   image: ShopifyImage | null;
   /** Option values when the variant title is generic (e.g. Default Title). */
   selectedOptions?: VariantSelectedOption[];

@@ -89,6 +89,10 @@ export const PRODUCT_BY_HANDLE = /* GraphQL */ `
               amount
               currencyCode
             }
+            compareAtPrice {
+              amount
+              currencyCode
+            }
             selectedOptions {
               name
               value
@@ -123,6 +127,7 @@ export function mapProductNode(data: {
           title: string;
           availableForSale: boolean;
           price: { amount: string; currencyCode: string };
+          compareAtPrice: { amount: string; currencyCode: string } | null;
           selectedOptions: Array<{ name: string; value: string }>;
           image: { url: string; altText: string | null } | null;
         };
@@ -138,6 +143,12 @@ export function mapProductNode(data: {
     title: n.title,
     availableForSale: n.availableForSale,
     price: n.price,
+    compareAtPrice: n.compareAtPrice
+      ? {
+          amount: n.compareAtPrice.amount,
+          currencyCode: n.compareAtPrice.currencyCode,
+        }
+      : null,
     image: n.image
       ? { url: n.image.url, altText: n.image.altText }
       : null,

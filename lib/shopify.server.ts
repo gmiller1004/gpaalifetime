@@ -41,6 +41,7 @@ export async function getProductByHandle(
               title: string;
               availableForSale: boolean;
               price: { amount: string; currencyCode: string };
+              compareAtPrice: { amount: string; currencyCode: string } | null;
               selectedOptions: Array<{ name: string; value: string }>;
               image: { url: string; altText: string | null } | null;
             };

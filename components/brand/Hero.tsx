@@ -20,19 +20,48 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import type { ShopifyImage, ShopifyProduct, ShopifyProductVariant } from "@/types";
+import type {
+  Money,
+  ShopifyImage,
+  ShopifyProduct,
+  ShopifyProductVariant,
+} from "@/types";
 import { imageSrcUnoptimized } from "@/lib/placeholders";
 import { trackAddToCart } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
-function formatMoney(v: ShopifyProductVariant) {
-  const n = Number(v.price.amount);
-  const code = v.price.currencyCode;
+function formatMoneyFromMoney(m: Money) {
+  const n = Number(m.amount);
+  const code = m.currencyCode;
   const formatted = n.toLocaleString("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
   return `${code} $${formatted}`;
+}
+
+function formatMoney(v: ShopifyProductVariant) {
+  return formatMoneyFromMoney(v.price);
+}
+
+/** Compare-at + savings % when Shopify compare-at is above current price. */
+function variantCompareSavings(
+  v: ShopifyProductVariant
+): { compareLabel: string; savingsPct: number } | null {
+  const cap = v.compareAtPrice;
+  if (!cap) return null;
+  const compare = Number(cap.amount);
+  const price = Number(v.price.amount);
+  if (
+    !Number.isFinite(compare) ||
+    !Number.isFinite(price) ||
+    compare <= price
+  ) {
+    return null;
+  }
+  const pct = Math.round(((compare - price) / compare) * 100);
+  if (pct <= 0) return null;
+  return { compareLabel: formatMoneyFromMoney(cap), savingsPct: pct };
 }
 
 function buildGalleryImages(
@@ -133,6 +162,8 @@ export function Hero({
   const variantLabel = selected
     ? getVariantDisplayTitle(selected)
     : "";
+
+  const compareSavings = selected ? variantCompareSavings(selected) : null;
 
   return (
     <section className="relative overflow-hidden border-b border-[var(--brand-border)]">
@@ -241,10 +272,26 @@ export function Hero({
                 {error}
               </p>
             ) : null}
+            {compareSavings ? (
+              <p
+                className="mt-4 text-sm text-[var(--brand-body)]"
+                aria-live="polite"
+              >
+                <span className="text-[var(--brand-muted)] line-through">
+                  {compareSavings.compareLabel}
+                </span>
+                <span className="ml-2 font-semibold text-[var(--brand-primary)]">
+                  Save {compareSavings.savingsPct}%
+                </span>
+              </p>
+            ) : null}
             <Button
               type="button"
               size="lg"
-              className="mt-4 inline-flex h-12 w-full max-w-md items-center justify-center gap-2 rounded-xl border-0 bg-[var(--brand-accent)] text-[var(--brand-accent-foreground)] shadow-md hover:bg-[var(--brand-accent)]/92 sm:w-auto"
+              className={cn(
+                "inline-flex h-12 w-full max-w-md items-center justify-center gap-2 rounded-xl border-0 bg-[var(--brand-accent)] text-[var(--brand-accent-foreground)] shadow-md hover:bg-[var(--brand-accent)]/92 sm:w-auto",
+                compareSavings ? "mt-3" : "mt-4"
+              )}
               disabled={!selected?.id || pending || isLoading}
               onClick={handleAdd}
             >
