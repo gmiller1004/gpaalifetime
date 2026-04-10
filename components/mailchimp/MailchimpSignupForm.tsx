@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
+import type { MailchimpFormSource } from "@/lib/analytics";
+
 import { useMailchimpSubscribe } from "./use-mailchimp-subscribe";
 
 const inputClass = cn(
@@ -17,9 +19,12 @@ const inputClass = cn(
 export function MailchimpSignupForm({
   variant = "inline",
   className,
+  analyticsSource = "inline",
 }: {
   variant?: "inline" | "modal";
   className?: string;
+  /** GA4 generate_lead form_source */
+  analyticsSource?: MailchimpFormSource;
 }) {
   const fieldId = React.useId();
   const { subscribe, pending, error, success } = useMailchimpSubscribe();
@@ -28,7 +33,7 @@ export function MailchimpSignupForm({
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    await subscribe(firstName, email);
+    await subscribe(firstName, email, { source: analyticsSource });
   }
 
   if (success) {

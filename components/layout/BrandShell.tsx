@@ -68,7 +68,7 @@ export function BrandShell({
         >
           <div className="sticky top-0 z-40">
             <Header brand={brand} siteHost={siteHost} />
-            <PromoBar />
+            <PromoBar brandId={brand.id} />
           </div>
           {!isLegalPage ? <GpaLifetimeValueStrip brand={brand} /> : null}
           <main className="flex-1">{children}</main>

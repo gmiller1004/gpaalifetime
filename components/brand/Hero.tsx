@@ -22,6 +22,7 @@ import {
 import { Label } from "@/components/ui/label";
 import type { ShopifyImage, ShopifyProduct, ShopifyProductVariant } from "@/types";
 import { imageSrcUnoptimized } from "@/lib/placeholders";
+import { trackAddToCart } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 function formatMoney(v: ShopifyProductVariant) {
@@ -117,6 +118,13 @@ export function Hero({
     setPending(true);
     try {
       await addBundle(selected.id, 1);
+      trackAddToCart({
+        currency: selected.price.currencyCode,
+        value: Number(selected.price.amount),
+        itemId: selected.id,
+        itemName: title,
+        quantity: 1,
+      });
     } finally {
       setPending(false);
     }
@@ -129,7 +137,7 @@ export function Hero({
   return (
     <section className="relative overflow-hidden border-b border-[var(--brand-border)]">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:gap-10 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-16">
-        <div className="flex min-w-0 flex-col gap-4 sm:gap-5">
+        <div className="order-2 flex min-w-0 flex-col gap-4 sm:gap-5 lg:order-1">
           <Badge className="w-fit border-[var(--brand-border)] bg-white text-[var(--brand-primary)] shadow-sm">
             Official Gold Life bundle · One secure checkout
           </Badge>
@@ -257,7 +265,7 @@ export function Hero({
           </div>
         </div>
 
-        <div className="flex min-w-0 flex-col gap-3">
+        <div className="order-1 flex min-w-0 flex-col gap-3 lg:order-2">
           <div className="relative aspect-[4/3] w-full min-h-0 overflow-hidden rounded-3xl border border-[var(--brand-border)] bg-[var(--brand-image-chrome)] shadow-lg ring-1 ring-black/5">
             <Image
               src={heroImage}

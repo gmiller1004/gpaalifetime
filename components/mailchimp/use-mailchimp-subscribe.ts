@@ -2,6 +2,8 @@
 
 import * as React from "react";
 
+import { trackMailchimpLead } from "@/lib/analytics";
+import type { MailchimpFormSource } from "@/lib/analytics";
 import { writeSubscribed } from "@/lib/mailchimp-storage";
 
 export function useMailchimpSubscribe() {
@@ -10,7 +12,11 @@ export function useMailchimpSubscribe() {
   const [success, setSuccess] = React.useState(false);
 
   const subscribe = React.useCallback(
-    async (firstName: string, email: string) => {
+    async (
+      firstName: string,
+      email: string,
+      options?: { source?: MailchimpFormSource }
+    ) => {
       setError(null);
       setPending(true);
       try {
@@ -27,6 +33,9 @@ export function useMailchimpSubscribe() {
           return false;
         }
         writeSubscribed();
+        if (options?.source) {
+          trackMailchimpLead(options.source);
+        }
         setSuccess(true);
         return true;
       } catch {

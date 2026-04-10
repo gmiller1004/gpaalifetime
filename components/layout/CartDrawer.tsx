@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Loader2Icon, ShoppingBagIcon, Trash2Icon } from "lucide-react";
 
 import { useCart } from "@/components/cart/cart-provider";
+import { trackBeginCheckout } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import {
@@ -219,6 +220,9 @@ export function CartDrawer() {
           <a
             href={cart?.checkoutUrl ?? "#"}
             className={checkoutButtonClassName(!cart?.checkoutUrl)}
+            onClick={() => {
+              if (cart) trackBeginCheckout(cart);
+            }}
           >
             Secure checkout
           </a>

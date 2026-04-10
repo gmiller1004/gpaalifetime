@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { DM_Sans, Fraunces, Geist_Mono } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
+import { GaRouteTracker } from "@/components/analytics/GaRouteTracker";
 import { shareImageMeta } from "@/lib/share-image";
 
 import "./globals.css";
+
+const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 const dmSans = DM_Sans({
   variable: "--font-body",
@@ -59,6 +63,12 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-white text-[#1c1d1d]">
         {children}
+        {gaMeasurementId ? (
+          <>
+            <GoogleAnalytics gaId={gaMeasurementId} />
+            <GaRouteTracker />
+          </>
+        ) : null}
       </body>
     </html>
   );

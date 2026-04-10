@@ -71,7 +71,7 @@ export function ExitIntentModal() {
           </DialogDescription>
         </DialogHeader>
         <div className="px-5 py-5">
-          <MailchimpSignupForm variant="modal" />
+          <MailchimpSignupForm variant="modal" analyticsSource="exit_modal" />
         </div>
       </DialogContent>
     </Dialog>
