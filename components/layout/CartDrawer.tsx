@@ -214,6 +214,11 @@ export function CartDrawer() {
                 match your free Training Paydirt bags (1 per $250 on bundle
                 subtotal).
               </p>
+              <p className="mt-2 text-xs leading-relaxed text-[var(--brand-muted)]">
+                Editing this note does not change how many free Training Paydirt
+                bags are included—those follow your bundle subtotal (one bag per
+                $250). Use this field for special instructions or reminders only.
+              </p>
             </div>
           ) : null}
           <Separator className="mb-4 bg-[var(--brand-border)]" />
