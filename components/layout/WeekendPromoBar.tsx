@@ -9,7 +9,7 @@ import {
 } from "@/lib/promos/gold4life500";
 
 /**
- * Sticky weekend offer strip — auto-hides at Monday 6:00 AM Pacific.
+ * Sticky weekend offer strip — auto-hides at Sunday midnight (Pacific).
  */
 export function WeekendPromoBar() {
   const [visible, setVisible] = React.useState(() =>
@@ -48,7 +48,7 @@ export function WeekendPromoBar() {
           <span className="rounded bg-white/20 px-1.5 py-0.5 font-mono text-[11px] tracking-wide sm:text-xs">
             {GOLD4LIFE500_PROMO.code}
           </span>{" "}
-          at checkout · Ends Monday 6am PT
+          at checkout · {GOLD4LIFE500_PROMO.endsLabel}
         </span>
       </p>
     </div>

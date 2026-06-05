@@ -8,7 +8,8 @@ export const GOLD4LIFE500_PROMO = {
   /** Shown in the site banner (matches Klaviyo email). */
   headline:
     "Weekend only: extra $500 off GPAA Lifetime & Gold Life bundles",
-  subline: "Use code Gold4Life500 at checkout · Ends Monday 6am PT",
+  subline: "Use code Gold4Life500 at checkout · Ends Sunday at midnight",
+  endsLabel: "Ends Sunday at midnight",
 } as const;
 
 type PacificParts = {
@@ -92,31 +93,24 @@ function addPacificCalendarDays(
   return { year: p.year, month: p.month, day: p.day };
 }
 
-/** Monday 6:00 AM Pacific that ends the current weekend window. */
+/** Monday 12:00 AM Pacific — end of Sunday / “Sunday at midnight”. */
 export function getGold4Life500PromoEndAt(from: Date = new Date()): Date | null {
   if (!isGold4Life500PromoActive(from)) return null;
 
   const p = getPacificParts(from);
 
-  if (p.weekday === 1) {
-    return dateInPacific(p.year, p.month, p.day, 6, 0);
-  }
-
   const daysUntilMonday =
     p.weekday === 0 ? 1 : p.weekday === 5 ? 3 : p.weekday === 6 ? 2 : 0;
 
   const monday = addPacificCalendarDays(p.year, p.month, p.day, daysUntilMonday);
-  return dateInPacific(monday.year, monday.month, monday.day, 6, 0);
+  return dateInPacific(monday.year, monday.month, monday.day, 0, 0);
 }
 
-/**
- * Active Fri–Sun and until Mon 6:00 AM Pacific (GPAA HQ).
- */
+/** Active Friday through Sunday (Pacific). */
 export function isGold4Life500PromoActive(at: Date = new Date()): boolean {
   if (!GOLD4LIFE500_PROMO_ENABLED) return false;
 
-  const { weekday, hour } = getPacificParts(at);
-  if (weekday === 1) return hour < 6;
+  const { weekday } = getPacificParts(at);
   return weekday === 5 || weekday === 6 || weekday === 0;
 }
 
