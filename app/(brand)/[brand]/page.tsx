@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
 import { Benefits } from "@/components/brand/Benefits";
@@ -13,11 +14,12 @@ import { Hero } from "@/components/brand/Hero";
 import { MailchimpSignupStrip } from "@/components/mailchimp/MailchimpSignupStrip";
 import { KitShowcase } from "@/components/brand/KitShowcase";
 import { MemberReviews } from "@/components/brand/MemberReviews";
+import { PartnerBundlesPromo } from "@/components/brand/PartnerBundlesPromo";
 import { ProofMetrics } from "@/components/brand/ProofMetrics";
 import { TrustStrip } from "@/components/brand/TrustStrip";
 import { VisualStoryStrip } from "@/components/brand/VisualStoryStrip";
 import { getBrandConfig, isBrandId } from "@/lib/brands";
-import { getProductByHandle } from "@/lib/shopify.server";
+import { getProductForBrand } from "@/lib/shopify.server";
 
 export default async function BrandHomePage({
   params,
@@ -28,7 +30,30 @@ export default async function BrandHomePage({
   if (!isBrandId(brand)) notFound();
 
   const config = getBrandConfig(brand);
-  const product = await getProductByHandle(config.productHandle);
+  const product = await getProductForBrand(config);
+  const h = await headers();
+  const siteHost = h.get("x-forwarded-host") ?? h.get("host") ?? "";
+
+  if (config.membershipOnly) {
+    return (
+      <>
+        <Hero brand={config} product={product} />
+        <MailchimpSignupStrip />
+        <TrustStrip />
+        <ProofMetrics />
+        <Benefits brand={config} />
+        <VisualStoryStrip brand={config} />
+        <BundleBreakdown brand={config} />
+        <PartnerBundlesPromo siteHost={siteHost} />
+        <KitShowcase brand={config} />
+        <MemberReviews />
+        <GpaaClaimsAndGuide />
+        <GoldProspectorsMagazineSection />
+        <ConversionFAQ />
+        <CTA brand={config} product={product} />
+      </>
+    );
+  }
 
   return (
     <>
@@ -36,13 +61,13 @@ export default async function BrandHomePage({
       <MailchimpSignupStrip />
       <TrustStrip />
       <ProofMetrics />
-      <Benefits />
+      <Benefits brand={config} />
       <VisualStoryStrip brand={config} />
       <BundleBreakdown brand={config} />
       <GoldMonsterDeepDive brandId={brand} product={product} />
       <GoldmasterDeepDive brandId={brand} product={product} />
       <GoldCubeDeepDive brandId={brand} product={product} />
-      <KitShowcase />
+      <KitShowcase brand={config} />
       <MemberReviews />
       <GpaaClaimsAndGuide />
       <GoldProspectorsMagazineSection />

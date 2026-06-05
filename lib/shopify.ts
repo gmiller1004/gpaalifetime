@@ -4,6 +4,7 @@
  */
 
 import { computeAutoCartNote } from "@/lib/cart-notes";
+import { PAYDIRT_PROMO_ENABLED } from "@/lib/features";
 import type {
   ShopifyCart,
   ShopifyImage,
@@ -172,6 +173,116 @@ export function mapProductNode(data: {
     images,
     variants,
   };
+}
+
+type VariantNodeProduct = {
+  id: string;
+  title: string;
+  description: string;
+  handle: string;
+  featuredImage: { url: string; altText: string | null } | null;
+  images: {
+    edges: Array<{ node: { url: string; altText: string | null } }>;
+  };
+};
+
+type VariantNode = {
+  id: string;
+  title: string;
+  availableForSale: boolean;
+  price: { amount: string; currencyCode: string };
+  compareAtPrice: { amount: string; currencyCode: string } | null;
+  selectedOptions: Array<{ name: string; value: string }>;
+  image: { url: string; altText: string | null } | null;
+  product: VariantNodeProduct;
+};
+
+function mapVariantNode(n: VariantNode): ShopifyProduct {
+  const p = n.product;
+  const variant: ShopifyProductVariant = {
+    id: n.id,
+    title: n.title,
+    availableForSale: n.availableForSale,
+    price: n.price,
+    compareAtPrice: n.compareAtPrice
+      ? {
+          amount: n.compareAtPrice.amount,
+          currencyCode: n.compareAtPrice.currencyCode,
+        }
+      : null,
+    image: n.image ? { url: n.image.url, altText: n.image.altText } : null,
+    selectedOptions:
+      n.selectedOptions?.length > 0 ? n.selectedOptions : undefined,
+  };
+  const images: ShopifyImage[] = p.images.edges.map(({ node: img }) => ({
+    url: img.url,
+    altText: img.altText,
+  }));
+  return {
+    id: p.id,
+    title: p.title,
+    description: p.description,
+    handle: p.handle,
+    featuredImage: p.featuredImage
+      ? { url: p.featuredImage.url, altText: p.featuredImage.altText }
+      : null,
+    images,
+    variants: [variant],
+  };
+}
+
+export const VARIANT_BY_ID = /* GraphQL */ `
+  query VariantById($id: ID!) {
+    node(id: $id) {
+      ... on ProductVariant {
+        id
+        title
+        availableForSale
+        price {
+          amount
+          currencyCode
+        }
+        compareAtPrice {
+          amount
+          currencyCode
+        }
+        selectedOptions {
+          name
+          value
+        }
+        image {
+          url
+          altText
+        }
+        product {
+          id
+          title
+          description
+          handle
+          featuredImage {
+            url
+            altText
+          }
+          images(first: 20) {
+            edges {
+              node {
+                url
+                altText
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export function mapVariantByIdNode(data: {
+  node: VariantNode | null;
+}): ShopifyProduct | null {
+  const node = data.node;
+  if (!node?.product) return null;
+  return mapVariantNode(node);
 }
 
 const CART_CREATE = /* GraphQL */ `
@@ -523,6 +634,9 @@ export async function updateCartNoteClient(
 export async function ensureGoldLifeBundleCartNote(
   cart: ShopifyCart
 ): Promise<ShopifyCart> {
+  if (!PAYDIRT_PROMO_ENABLED) {
+    return cart;
+  }
   const next = computeAutoCartNote(cart.lines);
   const norm = (s: string | null | undefined) => (s ?? "").trim();
   if (norm(next) === norm(cart.note)) {

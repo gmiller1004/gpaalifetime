@@ -6,6 +6,7 @@
 
 import type { BrandId } from "@/types";
 import { placeholderHero } from "@/lib/placeholders";
+import { LIFETIME_MEMBERSHIP_VARIANT_ID } from "@/lib/shopify-ids";
 
 export type { BrandId };
 
@@ -42,6 +43,16 @@ export interface BrandConfig {
   heroImageSrc: string;
   heroImageAlt: string;
   metaDescription: string;
+  /** Apex landing — GPAA Lifetime only (no partner equipment in this checkout). */
+  membershipOnly?: boolean;
+  /** Pin Storefront checkout to a single variant (numeric id or GID). */
+  fixedVariantId?: string;
+  heroBadge?: string;
+  heroCtaLabel?: string;
+  ctaHeadline?: string;
+  ctaSubheadline?: string;
+  ctaButtonLabel?: string;
+  benefitsIntro?: string;
 }
 
 /** Aligns with GPAA store theme body (--colorBody) */
@@ -49,7 +60,7 @@ const GPAA_STORE_PAGE_BG = "#FFFFFF";
 
 /** SEO meta descriptions — unique per bundle path; keep ~150–160 characters. */
 const metaDefault =
-  "GPAA Gold Life: Minelab Gold Monster 1000 or 2000 plus GPAA Lifetime Membership. Claims access, training paydirt offers, secure checkout—official GPAA bundle store.";
+  "Join GPAA for life: claims access, Gold Prospectors Magazine, chapters, and member programs. Secure checkout for GPAA Lifetime Membership at gpaalifetime.com.";
 
 const metaMinelab =
   "Minelab Gold Monster + GPAA Lifetime Membership. Choose Gold Monster 1000 or 2000, claims & member benefits, encrypted checkout—GPAA Gold Life partner bundles.";
@@ -61,44 +72,55 @@ const metaGoldcube =
   "Gold Cube 3-Stack Deluxe + GPAA Lifetime Membership. Concentrate placer gold faster with lifetime GPAA claims access—shop the Gold Cube × Gold Life bundle.";
 
 export const brands: Record<BrandId, BrandConfig> = {
-  /** Apex / www — same Minelab Gold Life bundle + visuals as `minelab` subdomain. */
+  /** Apex / www — GPAA Lifetime Membership only (partner bundles on subdomains). */
   default: {
     id: "default",
     slug: "default",
-    productHandle: "gold-life-minelab",
-    displayName: "Minelab × Gold Life",
-    tagline: "Official Minelab partnership — find more gold.",
-    primaryColor: "#E7262A",
+    productHandle: "gpaa-lifetime-membership",
+    fixedVariantId: LIFETIME_MEMBERSHIP_VARIANT_ID,
+    membershipOnly: true,
+    displayName: "GPAA Gold Life",
+    tagline: "Lifetime membership — claims, community, and member programs.",
+    primaryColor: "#1c1d1d",
     secondaryColor: "#FFFFFF",
+    accentColor: "#D4AF37",
+    accentForegroundColor: "#1c1d1d",
     backgroundColor: GPAA_STORE_PAGE_BG,
-    heroHeadline: "Gold Life – GPAA Lifetime Membership with Minelab",
+    heroHeadline: "GPAA Lifetime Membership — your place in gold country",
     heroSubheadline:
-      "Lifetime claims, chapters, and publications—plus the Minelab Gold Monster setup serious prospectors trust for small gold.",
-    bundleName: "Minelab Gold Monster Bundle",
+      "Lifetime access to GPAA claims and leases, the Mining Guide, Gold Prospectors Magazine, chapters, and a nationwide prospector community.",
+    heroBadge: "Official GPAA Lifetime · Secure checkout",
+    heroCtaLabel: "Join GPAA for life",
+    bundleName: "GPAA Lifetime Membership",
     bundleDescription:
-      "Your Minelab Gold Life stack: lifetime GPAA access plus the Gold Monster configuration you choose.",
+      "One membership, lifetime access — the same GPAA core every Gold Life bundle is built on, without partner equipment in this order.",
     bundleItems: [
       {
-        title: "GPAA Lifetime Membership",
+        title: "Claims & leases",
         description:
-          "Full member benefits: claims access, publications, events, and community nationwide.",
+          "Prospect on GPAA claims and leases nationwide — follow posted rules and member guidelines on every site.",
       },
       {
-        title: "Gold Monster 1000 or 2000",
+        title: "Mining Guide access",
         description:
-          "Select the VLF detector tuned for small gold in tough, mineralized ground.",
+          "Mining Guide & Online Property Guide with maps, turn-by-turn directions, and member field notes.",
       },
       {
-        title: "Field-ready fulfillment",
+        title: "Member programs",
         description:
-          "Equipment and accessories ship according to your order confirmation.",
+          "Gold Prospectors Magazine, local chapters, events, and the GPAA member community for life.",
       },
     ],
-    logoSrc: "/brands/minelab-co.svg",
-    coBrandLogoSrc: "/brands/gpaa-gold-life.png",
-    heroImageSrc: placeholderHero.minelab,
+    benefitsIntro:
+      "Lifetime GPAA membership is the foundation: where you can prospect, who you learn beside, and what you read between trips. Partner gear bundles are optional add-ons when you're ready.",
+    ctaHeadline: "Ready for lifetime claims access?",
+    ctaSubheadline:
+      "Add GPAA Lifetime Membership to your cart and complete secure checkout in minutes — most members finish on a phone before they head to the hills.",
+    ctaButtonLabel: "Join GPAA for life — checkout",
+    logoSrc: "/brands/gpaa-gold-life.png",
+    heroImageSrc: placeholderHero.default,
     heroImageAlt:
-      "Prospector with metal detector in gold country — Minelab Gold Life bundle",
+      "Prospector panning in a mountain creek — GPAA Lifetime Membership",
     metaDescription: metaDefault,
   },
   minelab: {
@@ -226,9 +248,11 @@ export const brands: Record<BrandId, BrandConfig> = {
 
 export const BRAND_IDS = Object.keys(brands) as BrandId[];
 
-/** Shopify product handles for GPAA Gold Life lifetime bundle products (used for cart note / paydirt tier). */
+/** Shopify product handles for partner bundle products (cart note / paydirt tier). */
 export const GOLD_LIFE_BUNDLE_PRODUCT_HANDLES = new Set(
-  Object.values(brands).map((b) => b.productHandle)
+  Object.values(brands)
+    .filter((b) => !b.membershipOnly)
+    .map((b) => b.productHandle)
 );
 
 export function isBrandId(value: string): value is BrandId {

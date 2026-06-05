@@ -51,12 +51,12 @@ export function CTA({
         <div className="relative overflow-hidden rounded-3xl border border-[var(--brand-border)] bg-[var(--brand-body-dim)] p-6 shadow-sm sm:p-12">
           <div className="relative z-10 mx-auto max-w-2xl text-center">
             <h2 className="font-heading text-3xl font-semibold tracking-tight text-[var(--brand-primary)] sm:text-4xl">
-              Ready for lifetime claims access and your gear?
+              {brand.ctaHeadline ??
+                "Ready for lifetime claims access and your gear?"}
             </h2>
             <p className="mt-3 text-[var(--brand-body)]">
-              Add the {brand.bundleName} to your cart and complete secure
-              checkout in minutes—most members finish on a phone before they
-              head to the hills.
+              {brand.ctaSubheadline ??
+                `Add the ${brand.bundleName} to your cart and complete secure checkout in minutes—most members finish on a phone before they head to the hills.`}
             </p>
             {error ? (
               <p className="mt-3 text-sm text-red-600" role="alert">
@@ -76,7 +76,7 @@ export function CTA({
                   Adding…
                 </>
               ) : (
-                "Secure my bundle — checkout"
+                brand.ctaButtonLabel ?? "Secure my bundle — checkout"
               )}
             </Button>
             <p className="mt-4 text-xs leading-relaxed text-[var(--brand-muted)]">

@@ -8,12 +8,15 @@ import {
 } from "@/lib/placeholders";
 
 function buildFrames(brand: BrandConfig) {
+  const membershipOnly = brand.membershipOnly;
+
   return [
     {
       src: placeholderHero[brand.id],
       alt: brand.heroImageAlt,
-      caption:
-        "Your gear path — choose the setup that matches how you hunt gold.",
+      caption: membershipOnly
+        ? "Lifetime GPAA — claims, guides, and a nationwide member community."
+        : "Your gear path — choose the setup that matches how you hunt gold.",
     },
     {
       src: placeholderStoryStrip[0],

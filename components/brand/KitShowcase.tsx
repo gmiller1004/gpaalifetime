@@ -1,8 +1,11 @@
 import { gpaaLifetimeKitItems } from "@/lib/kit-items";
+import type { BrandConfig } from "@/lib/brands";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export function KitShowcase() {
+export function KitShowcase({ brand }: { brand?: BrandConfig }) {
+  const membershipOnly = brand?.membershipOnly;
+
   return (
     <section className="border-b border-[var(--brand-border)] bg-[var(--brand-body-dim)] py-14 sm:py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -14,10 +17,9 @@ export function KitShowcase() {
             Member kit items lifetime prospectors actually use
           </h2>
           <p className="mt-3 text-[var(--brand-body)]">
-            Hat, pan, pin, card, and printed materials that mark you as a
-            lifetime member—alongside the partner gear in your bundle. Exact
-            items follow GPAA’s current lifetime program and may be updated from
-            season to season.
+            {membershipOnly
+              ? "Hat, pan, pin, card, and printed materials that mark you as a lifetime member. Exact items follow GPAA’s current lifetime program and may be updated from season to season."
+              : "Hat, pan, pin, card, and printed materials that mark you as a lifetime member—alongside the partner gear in your bundle. Exact items follow GPAA’s current lifetime program and may be updated from season to season."}
           </p>
         </div>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

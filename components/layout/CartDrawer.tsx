@@ -6,6 +6,7 @@ import { Loader2Icon, ShoppingBagIcon, Trash2Icon } from "lucide-react";
 
 import { useCart } from "@/components/cart/cart-provider";
 import { trackBeginCheckout } from "@/lib/analytics";
+import { PAYDIRT_PROMO_ENABLED } from "@/lib/features";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import {
@@ -210,15 +211,22 @@ export function CartDrawer() {
               />
               <p className="mt-2 text-xs leading-relaxed text-[var(--brand-muted)]">
                 Shown on your order confirmation for fulfillment.
-                When you add or remove a Gold Life bundle, this note refreshes to
-                match your free Training Paydirt bags (1 per $250 on bundle
-                subtotal).
+                {PAYDIRT_PROMO_ENABLED ? (
+                  <>
+                    {" "}
+                    When you add or remove a Gold Life bundle, this note refreshes
+                    to match your free Training Paydirt bags (1 per $250 on bundle
+                    subtotal).
+                  </>
+                ) : null}
               </p>
-              <p className="mt-2 text-xs leading-relaxed text-[var(--brand-muted)]">
-                Editing this note does not change how many free Training Paydirt
-                bags are included—those follow your bundle subtotal (one bag per
-                $250). Use this field for special instructions or reminders only.
-              </p>
+              {PAYDIRT_PROMO_ENABLED ? (
+                <p className="mt-2 text-xs leading-relaxed text-[var(--brand-muted)]">
+                  Editing this note does not change how many free Training Paydirt
+                  bags are included—those follow your bundle subtotal (one bag per
+                  $250). Use this field for special instructions or reminders only.
+                </p>
+              ) : null}
             </div>
           ) : null}
           <Separator className="mb-4 bg-[var(--brand-border)]" />

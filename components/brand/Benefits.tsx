@@ -1,5 +1,6 @@
 import { CheckCircle2Icon } from "lucide-react";
 
+import type { BrandConfig } from "@/lib/brands";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const benefits = [
@@ -25,7 +26,11 @@ const benefits = [
   },
 ];
 
-export function Benefits() {
+export function Benefits({ brand }: { brand?: BrandConfig }) {
+  const intro =
+    brand?.benefitsIntro ??
+    "Every Gold Life bundle is built around the same lifetime GPAA core: where you can go, who you learn beside, and what you read between trips. Only the partner equipment in the bundle changes—Minelab, Garrett, Gold Cube, or another Gold Life partner offer.";
+
   return (
     <section className="border-b border-[var(--brand-border)] bg-[var(--brand-body-dim)] py-14 sm:py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -36,12 +41,7 @@ export function Benefits() {
           <h2 className="font-heading mt-2 text-3xl font-semibold tracking-tight text-[var(--brand-primary)] sm:text-4xl">
             Why prospectors join GPAA before they buy another piece of gear
           </h2>
-          <p className="mt-3 text-[var(--brand-body)]">
-            Every Gold Life bundle is built around the same lifetime GPAA core:
-            where you can go, who you learn beside, and what you read between
-            trips. Only the partner equipment in the bundle changes—Minelab,
-            Garrett, Gold Cube, or another Gold Life partner offer.
-          </p>
+          <p className="mt-3 text-[var(--brand-body)]">{intro}</p>
         </div>
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
           {benefits.map((b) => (

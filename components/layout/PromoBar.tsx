@@ -1,5 +1,7 @@
 import type { BrandId } from "@/types";
 
+import { PAYDIRT_PROMO_ENABLED } from "@/lib/features";
+
 const PAYDIRT_PROMO_VARIANT =
   "Limited Time: Get up to $600 in free gold in paydirt with your new GPAA Lifetime bundle";
 
@@ -17,6 +19,10 @@ function paydirtCopy(brandId: BrandId): string {
  * Sticky strip below the main header — ships inside the same sticky wrapper as Header.
  */
 export function PromoBar({ brandId }: { brandId: BrandId }) {
+  if (!PAYDIRT_PROMO_ENABLED) {
+    return null;
+  }
+
   return (
     <div
       role="note"

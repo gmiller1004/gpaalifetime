@@ -1,9 +1,11 @@
 import type { BrandConfig } from "@/lib/brands";
 
 /**
- * Persuasive, membership-first strip: GPAA Lifetime is the “why”; the partner bundle is the add-on perk.
+ * Persuasive, membership-first strip beneath the header.
  */
 export function GpaLifetimeValueStrip({ brand }: { brand: BrandConfig }) {
+  const membershipOnly = brand.membershipOnly;
+
   return (
     <section
       className="border-b border-[var(--brand-border)] bg-[var(--brand-body-dim)]"
@@ -20,11 +22,24 @@ export function GpaLifetimeValueStrip({ brand }: { brand: BrandConfig }) {
           Lifetime access to real places to find gold.
         </h2>
         <p className="mt-3 max-w-3xl text-pretty text-sm leading-relaxed text-[var(--brand-body)] sm:text-base">
-          Claims, leases, and the Mining Guide &amp; Online Property Guide—so you know
-          where you&apos;re welcome to prospect, for life. Your{" "}
-          <span className="font-medium text-[#1c1d1d]">{brand.bundleName}</span> is
-          the add-on: partner gear and member-friendly pricing in{" "}
-          <span className="font-medium text-[#1c1d1d]">one secure checkout</span>.
+          {membershipOnly ? (
+            <>
+              Claims, leases, and the Mining Guide &amp; Online Property
+              Guide—so you know where you&apos;re welcome to prospect, for life.
+              Join on this page, or explore partner bundles when you want
+              lifetime GPAA plus Minelab, Garrett, or Gold Cube gear in{" "}
+              <span className="font-medium text-[#1c1d1d]">one secure checkout</span>.
+            </>
+          ) : (
+            <>
+              Claims, leases, and the Mining Guide &amp; Online Property
+              Guide—so you know where you&apos;re welcome to prospect, for life.
+              Your{" "}
+              <span className="font-medium text-[#1c1d1d]">{brand.bundleName}</span>{" "}
+              is the add-on: partner gear and member-friendly pricing in{" "}
+              <span className="font-medium text-[#1c1d1d]">one secure checkout</span>.
+            </>
+          )}
         </p>
       </div>
     </section>

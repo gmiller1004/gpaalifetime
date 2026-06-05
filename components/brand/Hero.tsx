@@ -164,13 +164,17 @@ export function Hero({
     : "";
 
   const compareSavings = selected ? variantCompareSavings(selected) : null;
+  const membershipOnly = brand.membershipOnly;
+  const heroBadge =
+    brand.heroBadge ?? "Official Gold Life bundle · One secure checkout";
+  const heroCta = brand.heroCtaLabel ?? "Get lifetime access + gear";
 
   return (
     <section className="relative overflow-hidden border-b border-[var(--brand-border)]">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:gap-10 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-16">
         <div className="order-2 flex min-w-0 flex-col gap-4 sm:gap-5 lg:order-1">
           <Badge className="w-fit border-[var(--brand-border)] bg-white text-[var(--brand-primary)] shadow-sm">
-            Official Gold Life bundle · One secure checkout
+            {heroBadge}
           </Badge>
           <h1 className="font-heading text-balance text-3xl font-semibold leading-tight tracking-tight text-[var(--brand-primary)] sm:text-4xl lg:text-5xl">
             {brand.heroHeadline}
@@ -211,10 +215,22 @@ export function Hero({
                 aria-hidden
               />
               <span>
-                <span className="font-medium text-[#1c1d1d]">
-                  Partner gear in this path
-                </span>{" "}
-                — choose your equipment, then finish checkout in minutes.
+                {membershipOnly ? (
+                  <>
+                    <span className="font-medium text-[#1c1d1d]">
+                      Member kit &amp; programs
+                    </span>{" "}
+                    — welcome materials, pin, and lifetime member status from day
+                    one.
+                  </>
+                ) : (
+                  <>
+                    <span className="font-medium text-[#1c1d1d]">
+                      Partner gear in this path
+                    </span>{" "}
+                    — choose your equipment, then finish checkout in minutes.
+                  </>
+                )}
               </span>
             </li>
           </ul>
@@ -301,7 +317,7 @@ export function Hero({
                   Adding…
                 </>
               ) : (
-                "Get lifetime access + gear"
+                heroCta
               )}
             </Button>
             <p className="mt-3 text-xs leading-relaxed text-[var(--brand-muted)]">
@@ -330,8 +346,12 @@ export function Hero({
               </p>
               <p className="text-xs text-[var(--brand-body)]">
                 {selected
-                  ? `${variantLabel} — ${formatMoney(selected)}`
-                  : "Configure your bundle above."}
+                  ? membershipOnly
+                    ? `${formatMoney(selected)} · Lifetime membership`
+                    : `${variantLabel} — ${formatMoney(selected)}`
+                  : membershipOnly
+                    ? "Membership pricing appears above when available."
+                    : "Configure your bundle above."}
               </p>
             </div>
           </div>

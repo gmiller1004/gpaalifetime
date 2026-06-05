@@ -5,7 +5,10 @@ import Link from "next/link";
 import { ShoppingCartIcon } from "lucide-react";
 
 import type { BrandConfig } from "@/lib/brands";
-import { BundleNavMenu } from "@/components/layout/BundleNavMenu";
+import {
+  BundleNavMenu,
+  BundlePartnerDesktopNav,
+} from "@/components/layout/BundleNavMenu";
 import { useCart } from "@/components/cart/cart-provider";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -82,6 +85,8 @@ export function Header({
             </span>
           </div>
         </Link>
+
+        <BundlePartnerDesktopNav brand={brand} siteHost={siteHost} />
 
         <div className="flex shrink-0 items-center gap-2">
           <BundleNavMenu brand={brand} siteHost={siteHost} />

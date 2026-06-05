@@ -1,6 +1,7 @@
 import type { CartLine } from "@/types";
 
 import { GOLD_LIFE_BUNDLE_PRODUCT_HANDLES } from "@/lib/brands";
+import { PAYDIRT_PROMO_ENABLED } from "@/lib/features";
 
 /** Qualifying merchandise subtotal per free paydirt bag (before tax & shipping). */
 export const SPEND_PER_FREE_PAYDIRT_BAG = 250;
@@ -43,6 +44,9 @@ export function qualifyingGoldLifeSubtotal(lines: CartLine[]): {
  * Returns null when no Gold Life bundle is in the cart.
  */
 export function computeAutoCartNote(lines: CartLine[]): string | null {
+  if (!PAYDIRT_PROMO_ENABLED) {
+    return null;
+  }
   const { subtotal, currencyCode, bundleLines } =
     qualifyingGoldLifeSubtotal(lines);
   if (bundleLines.length === 0) return null;
