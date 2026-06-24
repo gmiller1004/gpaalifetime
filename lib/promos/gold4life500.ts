@@ -12,6 +12,15 @@ export const GOLD4LIFE500_PROMO = {
   endsLabel: "Ends Sunday at midnight",
 } as const;
 
+/** Monday 00:00 Pacific after promo Sunday (= “Sunday at midnight”). Update per campaign. */
+const DEFAULT_PROMO_END_PACIFIC = {
+  year: 2026,
+  month: 6,
+  day: 29,
+  hour: 0,
+  minute: 0,
+} as const;
+
 type PacificParts = {
   year: number;
   month: number;
@@ -81,41 +90,43 @@ function dateInPacific(
   return guess;
 }
 
-function addPacificCalendarDays(
-  year: number,
-  month: number,
-  day: number,
-  days: number
-): Pick<PacificParts, "year" | "month" | "day"> {
-  const anchor = dateInPacific(year, month, day, 12, 0);
-  const shifted = new Date(anchor.getTime() + days * 86_400_000);
-  const p = getPacificParts(shifted);
-  return { year: p.year, month: p.month, day: p.day };
+/** Parse NEXT_PUBLIC_GOLD4LIFE500_PROMO_END as YYYY-MM-DD (Monday 00:00 PT). */
+function promoEndFromEnv(): Date | null {
+  const raw = process.env.NEXT_PUBLIC_GOLD4LIFE500_PROMO_END?.trim();
+  if (!raw) return null;
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(raw);
+  if (!match) return null;
+  return dateInPacific(
+    Number(match[1]),
+    Number(match[2]),
+    Number(match[3]),
+    0,
+    0
+  );
 }
 
-/** Monday 12:00 AM Pacific — end of Sunday / “Sunday at midnight”. */
-export function getGold4Life500PromoEndAt(from: Date = new Date()): Date | null {
-  if (!isGold4Life500PromoActive(from)) return null;
-
-  const p = getPacificParts(from);
-
-  const daysUntilMonday =
-    p.weekday === 0 ? 1 : p.weekday === 5 ? 3 : p.weekday === 6 ? 2 : 0;
-
-  const monday = addPacificCalendarDays(p.year, p.month, p.day, daysUntilMonday);
-  return dateInPacific(monday.year, monday.month, monday.day, 0, 0);
+/** Hard stop for the active campaign (Sunday at midnight Pacific). */
+export function getGold4Life500PromoEndAt(): Date {
+  return (
+    promoEndFromEnv() ??
+    dateInPacific(
+      DEFAULT_PROMO_END_PACIFIC.year,
+      DEFAULT_PROMO_END_PACIFIC.month,
+      DEFAULT_PROMO_END_PACIFIC.day,
+      DEFAULT_PROMO_END_PACIFIC.hour,
+      DEFAULT_PROMO_END_PACIFIC.minute
+    )
+  );
 }
 
-/** Active Friday through Sunday (Pacific). */
+/** Active until Sunday at midnight Pacific (configurable end date). */
 export function isGold4Life500PromoActive(at: Date = new Date()): boolean {
   if (!GOLD4LIFE500_PROMO_ENABLED) return false;
-
-  const { weekday } = getPacificParts(at);
-  return weekday === 5 || weekday === 6 || weekday === 0;
+  return at.getTime() < getGold4Life500PromoEndAt().getTime();
 }
 
 export function msUntilGold4Life500PromoEnd(from: Date = new Date()): number | null {
-  const end = getGold4Life500PromoEndAt(from);
-  if (!end) return null;
+  if (!isGold4Life500PromoActive(from)) return null;
+  const end = getGold4Life500PromoEndAt();
   return Math.max(0, end.getTime() - from.getTime());
 }
