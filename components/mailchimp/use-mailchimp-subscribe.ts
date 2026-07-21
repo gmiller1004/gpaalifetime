@@ -2,11 +2,11 @@
 
 import * as React from "react";
 
-import { trackMailchimpLead } from "@/lib/analytics";
-import type { MailchimpFormSource } from "@/lib/analytics";
+import { trackKlaviyoLead } from "@/lib/analytics";
+import type { LeadFormSource } from "@/lib/analytics";
 import { writeSubscribed } from "@/lib/mailchimp-storage";
 
-export function useMailchimpSubscribe() {
+export function useKlaviyoSubscribe() {
   const [pending, setPending] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [success, setSuccess] = React.useState(false);
@@ -15,12 +15,12 @@ export function useMailchimpSubscribe() {
     async (
       firstName: string,
       email: string,
-      options?: { source?: MailchimpFormSource }
+      options?: { source?: LeadFormSource }
     ) => {
       setError(null);
       setPending(true);
       try {
-        const res = await fetch("/api/mailchimp/subscribe", {
+        const res = await fetch("/api/klaviyo/subscribe", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ firstName, email }),
@@ -34,7 +34,7 @@ export function useMailchimpSubscribe() {
         }
         writeSubscribed();
         if (options?.source) {
-          trackMailchimpLead(options.source);
+          trackKlaviyoLead(options.source);
         }
         setSuccess(true);
         return true;

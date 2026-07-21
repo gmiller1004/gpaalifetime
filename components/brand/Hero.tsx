@@ -29,6 +29,7 @@ import type {
 import { imageSrcUnoptimized } from "@/lib/placeholders";
 import { trackAddToCart } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { SoldOutBadge } from "@/components/brand/SoldOutBadge";
 
 function formatMoneyFromMoney(m: Money) {
   const n = Number(m.amount);
@@ -95,10 +96,15 @@ export function Hero({
   const { addBundle, isLoading, error } = useCart();
   const { setPreferredVariantId } = useVariantPreference();
 
-  const variants = React.useMemo(
-    () => product?.variants.filter((v) => v.availableForSale) ?? [],
+  const allVariants = React.useMemo(
+    () => product?.variants ?? [],
     [product]
   );
+  const variants = React.useMemo(
+    () => allVariants.filter((v) => v.availableForSale),
+    [allVariants]
+  );
+  const showVariantPicker = allVariants.length > 1;
   const [selectedId, setSelectedId] = React.useState<string>(
     () => variants[0]?.id ?? ""
   );
@@ -114,8 +120,8 @@ export function Hero({
   }, [selected?.id, setPreferredVariantId]);
 
   const galleryImages = React.useMemo(
-    () => (product ? buildGalleryImages(product, variants) : []),
-    [product, variants]
+    () => (product ? buildGalleryImages(product, allVariants) : []),
+    [product, allVariants]
   );
 
   const [imageOverrideUrl, setImageOverrideUrl] = React.useState<string | null>(
@@ -238,7 +244,7 @@ export function Hero({
             <p className="text-sm font-medium text-[var(--brand-primary)]">
               {title}
             </p>
-            {variants.length > 1 ? (
+            {showVariantPicker ? (
               <div className="mt-3 space-y-2">
                 <Label htmlFor="variant" className="text-[var(--brand-body)]">
                   Choose your configuration
@@ -246,7 +252,9 @@ export function Hero({
                 <Select
                   value={selected ? variantKey(selected.id) : ""}
                   onValueChange={(key) => {
-                    const v = variants.find((x) => variantKey(x.id) === key);
+                    const v = allVariants.find(
+                      (x) => variantKey(x.id) === key && x.availableForSale
+                    );
                     if (v) setSelectedId(v.id);
                   }}
                 >
@@ -265,9 +273,21 @@ export function Hero({
                     </span>
                   </SelectTrigger>
                   <SelectContent className="border-[var(--brand-border)] bg-white text-[var(--brand-body)] shadow-lg">
-                    {variants.map((v) => (
-                      <SelectItem key={v.id} value={variantKey(v.id)}>
-                        {getVariantDisplayTitle(v)} — {formatMoney(v)}
+                    {allVariants.map((v) => (
+                      <SelectItem
+                        key={v.id}
+                        value={variantKey(v.id)}
+                        disabled={!v.availableForSale}
+                      >
+                        <span className="flex items-center gap-2">
+                          <span>
+                            {getVariantDisplayTitle(v)}
+                            {v.availableForSale
+                              ? ` — ${formatMoney(v)}`
+                              : ""}
+                          </span>
+                          {!v.availableForSale ? <SoldOutBadge /> : null}
+                        </span>
                       </SelectItem>
                     ))}
                   </SelectContent>

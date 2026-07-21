@@ -19,3 +19,11 @@ export function goldMonsterSeries(
   }
   return null;
 }
+
+export function isGoldMonsterSeriesSoldOut(
+  variants: ShopifyProductVariant[],
+  series: GoldMonsterSeries
+): boolean {
+  const matches = variants.filter((variant) => goldMonsterSeries(variant) === series);
+  return matches.length === 0 || matches.every((variant) => !variant.availableForSale);
+}

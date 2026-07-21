@@ -16,7 +16,7 @@ const BUNDLE_NAV_META: Record<
   { tagline: string; accentColor: string }
 > = {
   minelab: {
-    tagline: "Gold Monster 1000 or 2000 + lifetime GPAA",
+    tagline: "Gold Monster 1000 + lifetime GPAA · GM2000 sold out",
     accentColor: "#E7262A",
   },
   garrett: {

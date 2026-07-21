@@ -10,6 +10,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { ExitIntentModal } from "@/components/mailchimp/ExitIntentModal";
 import { GpaLifetimeValueStrip } from "@/components/layout/GpaLifetimeValueStrip";
+import { MinelabGm1000PromoBar } from "@/components/layout/MinelabGm1000PromoBar";
 import { PromoBar } from "@/components/layout/PromoBar";
 import { WeekendPromoBar } from "@/components/layout/WeekendPromoBar";
 import { cn } from "@/lib/utils";
@@ -70,6 +71,7 @@ export function BrandShell({
           <div className="sticky top-0 z-40">
             <Header brand={brand} siteHost={siteHost} />
             <WeekendPromoBar />
+            <MinelabGm1000PromoBar brandId={brand.id} />
             <PromoBar brandId={brand.id} />
           </div>
           {!isLegalPage ? <GpaLifetimeValueStrip brand={brand} /> : null}

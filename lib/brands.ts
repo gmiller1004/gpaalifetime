@@ -63,7 +63,7 @@ const metaDefault =
   "Join GPAA for life: claims access, Gold Prospectors Magazine, chapters, and member programs. Secure checkout for GPAA Lifetime Membership at gpaalifetime.com.";
 
 const metaMinelab =
-  "Minelab Gold Monster + GPAA Lifetime Membership. Choose Gold Monster 1000 or 2000, claims & member benefits, encrypted checkout—GPAA Gold Life partner bundles.";
+  "Minelab Gold Monster 1000 + GPAA Lifetime Membership, claims, and member benefits. Gold Monster 2000 is sold out—shop the official GPAA Gold Life bundle.";
 
 const metaGarrett =
   "Garrett Goldmaster 24k + GPAA Lifetime Membership. Fine-gold VLF with two coils, claims & community—buy the official Garrett × Gold Life bundle online.";

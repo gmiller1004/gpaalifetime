@@ -2,8 +2,12 @@ import Image from "next/image";
 import { ChevronDownIcon } from "lucide-react";
 
 import type { BrandId, ShopifyProduct } from "@/types";
-import { goldMonsterSeries } from "@/lib/gold-monster";
+import {
+  goldMonsterSeries,
+  isGoldMonsterSeriesSoldOut,
+} from "@/lib/gold-monster";
 import { imageSrcUnoptimized, placeholderDeepDive } from "@/lib/placeholders";
+import { SoldOutBadge } from "@/components/brand/SoldOutBadge";
 
 const MINELAB_GM1000 = "https://www.minelab.com/gold-monster-1000";
 const MINELAB_GM2000 = "https://www.minelab.com/gold-monster-2000";
@@ -77,6 +81,11 @@ export function GoldMonsterDeepDive({
     return null;
   }
 
+  const gm2000SoldOut = isGoldMonsterSeriesSoldOut(
+    product.variants,
+    "2000"
+  );
+
   return (
     <section className="border-b border-[var(--brand-border)] bg-white py-14 sm:py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -84,13 +93,16 @@ export function GoldMonsterDeepDive({
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--brand-muted)]">
             Detector deep dive
           </p>
-          <h2 className="font-heading mt-2 text-3xl font-semibold tracking-tight text-[var(--brand-primary)] sm:text-4xl">
-            Gold Monster 1000 vs 2000
-          </h2>
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+            <h2 className="font-heading text-3xl font-semibold tracking-tight text-[var(--brand-primary)] sm:text-4xl">
+              Gold Monster 1000 vs 2000
+            </h2>
+            {gm2000SoldOut ? <SoldOutBadge /> : null}
+          </div>
           <p className="mt-3 text-[var(--brand-body)]">
-            Both are serious gold machines—choose the one that matches your ground,
-            experience, and how much target information you want at the coil. Full
-            specifications are on{" "}
+            The Gold Monster 1000 is available now. The Gold Monster 2000 is
+            currently sold out, but its specifications remain below for
+            comparison. Full specifications are on{" "}
             <a
               href={MINELAB_GM1000}
               className="font-medium text-[var(--brand-primary)] underline underline-offset-2 hover:opacity-90"
@@ -132,9 +144,14 @@ export function GoldMonsterDeepDive({
                   <div className="flex min-w-0 flex-1 flex-col justify-center text-left">
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <h3 className="font-heading text-xl font-semibold text-[var(--brand-primary)] sm:text-2xl">
-                          {copy.name}
-                        </h3>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="font-heading text-xl font-semibold text-[var(--brand-primary)] sm:text-2xl">
+                            {copy.name}
+                          </h3>
+                          {series === "2000" && gm2000SoldOut ? (
+                            <SoldOutBadge />
+                          ) : null}
+                        </div>
                         <p className="mt-2 text-sm leading-relaxed text-[var(--brand-body)] sm:text-base">
                           {copy.lede}
                         </p>

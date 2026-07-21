@@ -43,7 +43,7 @@ export default async function BrandHomePage({
         <ProofMetrics />
         <Benefits brand={config} />
         <VisualStoryStrip brand={config} />
-        <BundleBreakdown brand={config} />
+        <BundleBreakdown brand={config} product={product} />
         <PartnerBundlesPromo siteHost={siteHost} />
         <KitShowcase brand={config} />
         <MemberReviews />
@@ -63,7 +63,7 @@ export default async function BrandHomePage({
       <ProofMetrics />
       <Benefits brand={config} />
       <VisualStoryStrip brand={config} />
-      <BundleBreakdown brand={config} />
+      <BundleBreakdown brand={config} product={product} />
       <GoldMonsterDeepDive brandId={brand} product={product} />
       <GoldmasterDeepDive brandId={brand} product={product} />
       <GoldCubeDeepDive brandId={brand} product={product} />

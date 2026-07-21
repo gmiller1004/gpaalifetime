@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-import type { MailchimpFormSource } from "@/lib/analytics";
+import type { LeadFormSource } from "@/lib/analytics";
 
-import { useMailchimpSubscribe } from "./use-mailchimp-subscribe";
+import { useKlaviyoSubscribe } from "./use-mailchimp-subscribe";
 
 const inputClass = cn(
   "h-10 w-full rounded-lg border border-[var(--brand-border)] bg-white px-3 text-sm text-[var(--brand-body)] shadow-sm",
@@ -24,10 +24,10 @@ export function MailchimpSignupForm({
   variant?: "inline" | "modal";
   className?: string;
   /** GA4 generate_lead form_source */
-  analyticsSource?: MailchimpFormSource;
+  analyticsSource?: LeadFormSource;
 }) {
   const fieldId = React.useId();
-  const { subscribe, pending, error, success } = useMailchimpSubscribe();
+  const { subscribe, pending, error, success } = useKlaviyoSubscribe();
   const [firstName, setFirstName] = React.useState("");
   const [email, setEmail] = React.useState("");
 

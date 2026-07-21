@@ -4,7 +4,7 @@ import { sendGAEvent } from "@next/third-parties/google";
 
 import type { ShopifyCart } from "@/types";
 
-export type MailchimpFormSource = "inline" | "exit_modal";
+export type LeadFormSource = "inline" | "exit_modal";
 
 /** Call after route changes (initial load is covered by gtag config). */
 export function trackPageView(pathname: string) {
@@ -59,9 +59,9 @@ export function trackBeginCheckout(cart: ShopifyCart) {
   });
 }
 
-export function trackMailchimpLead(source: MailchimpFormSource) {
+export function trackKlaviyoLead(source: LeadFormSource) {
   sendGAEvent("event", "generate_lead", {
-    form_destination: "mailchimp",
+    form_destination: "klaviyo",
     form_source: source,
   });
 }
