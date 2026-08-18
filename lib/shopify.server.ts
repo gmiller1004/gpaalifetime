@@ -1,14 +1,15 @@
 import "server-only";
 
 import type { BrandConfig } from "@/lib/brands";
-import { shopifyVariantGid } from "@/lib/shopify-ids";
 import {
   mapProductNode,
   mapVariantByIdNode,
   PRODUCT_BY_HANDLE,
+  PRODUCT_BY_ID,
   storefrontFetch,
   VARIANT_BY_ID,
 } from "@/lib/shopify";
+import { shopifyProductGid, shopifyVariantGid } from "@/lib/shopify-ids";
 import type { ShopifyProduct } from "@/types";
 
 /**
@@ -96,4 +97,28 @@ export async function getProductForBrand(
     if (fromVariant) return fromVariant;
   }
   return getProductByHandle(brand.productHandle);
+}
+
+export async function getProductById(
+  productId: string,
+  country: string = "US"
+): Promise<ShopifyProduct | null> {
+  if (
+    !process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN ||
+    !process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN
+  ) {
+    return null;
+  }
+  try {
+    const data = await storefrontFetch<{
+      product: Parameters<typeof mapProductNode>[0]["product"];
+    }>(
+      PRODUCT_BY_ID,
+      { id: shopifyProductGid(productId), country: country as "US" },
+      { next: { revalidate: 60 } }
+    );
+    return mapProductNode(data);
+  } catch {
+    return null;
+  }
 }

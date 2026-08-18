@@ -60,6 +60,57 @@ export async function storefrontFetch<T>(
   return json.data;
 }
 
+export const PRODUCT_BY_ID = /* GraphQL */ `
+  query ProductById($id: ID!, $country: CountryCode)
+  @inContext(country: $country) {
+    product: node(id: $id) {
+      ... on Product {
+        id
+        title
+        description
+        handle
+        featuredImage {
+          url
+          altText
+        }
+        images(first: 20) {
+          edges {
+            node {
+              url
+              altText
+            }
+          }
+        }
+        variants(first: 50) {
+          edges {
+            node {
+              id
+              title
+              availableForSale
+              price {
+                amount
+                currencyCode
+              }
+              compareAtPrice {
+                amount
+                currencyCode
+              }
+              selectedOptions {
+                name
+                value
+              }
+              image {
+                url
+                altText
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const PRODUCT_BY_HANDLE = /* GraphQL */ `
   query ProductByHandle($handle: String!, $country: CountryCode)
   @inContext(country: $country) {
@@ -137,7 +188,7 @@ export function mapProductNode(data: {
   } | null;
 }): ShopifyProduct | null {
   const p = data.product;
-  if (!p) return null;
+  if (!p?.variants?.edges) return null;
 
   const variants: ShopifyProductVariant[] = p.variants.edges.map(({ node: n }) => ({
     id: n.id,

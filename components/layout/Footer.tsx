@@ -6,11 +6,15 @@ import { getOtherBundleNavItems } from "@/lib/bundle-urls";
 export function Footer({
   brand,
   siteHost,
+  hideOtherBundles = false,
 }: {
   brand: BrandConfig;
   siteHost: string;
+  hideOtherBundles?: boolean;
 }) {
-  const otherBundles = getOtherBundleNavItems(brand.id, siteHost);
+  const otherBundles = hideOtherBundles
+    ? []
+    : getOtherBundleNavItems(brand.id, siteHost);
   const year = new Date().getFullYear();
 
   return (

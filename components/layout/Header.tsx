@@ -24,9 +24,11 @@ function partnerLogoAlt(brand: BrandConfig): string {
 export function Header({
   brand,
   siteHost,
+  hidePartnerNav = false,
 }: {
   brand: BrandConfig;
   siteHost: string;
+  hidePartnerNav?: boolean;
 }) {
   const { lineCount, setDrawerOpen } = useCart();
   const coBranded = Boolean(brand.coBrandLogoSrc);
@@ -76,9 +78,11 @@ export function Header({
             ) : null}
             <span
               className={
-                coBranded
-                  ? "line-clamp-2 text-[11px] text-white/60 sm:line-clamp-none sm:max-w-[240px] sm:text-xs sm:text-white/65"
-                  : "hidden max-w-[200px] truncate text-xs text-white/60 sm:block"
+                hidePartnerNav
+                  ? "hidden text-xs leading-snug text-white/60 sm:block sm:max-w-lg"
+                  : coBranded
+                    ? "line-clamp-2 text-[11px] text-white/60 sm:line-clamp-none sm:max-w-[240px] sm:text-xs sm:text-white/65"
+                    : "hidden max-w-[200px] truncate text-xs text-white/60 sm:block"
               }
             >
               {brand.tagline}
@@ -86,10 +90,16 @@ export function Header({
           </div>
         </Link>
 
-        <BundlePartnerDesktopNav brand={brand} siteHost={siteHost} />
+        {!hidePartnerNav ? (
+          <BundlePartnerDesktopNav brand={brand} siteHost={siteHost} />
+        ) : (
+          <div className="hidden flex-1 lg:block" />
+        )}
 
         <div className="flex shrink-0 items-center gap-2">
-          <BundleNavMenu brand={brand} siteHost={siteHost} />
+          {!hidePartnerNav ? (
+            <BundleNavMenu brand={brand} siteHost={siteHost} />
+          ) : null}
           <Badge
             variant="outline"
             className="hidden border-white/20 bg-white/10 text-[10px] text-white/90 sm:inline-flex"
