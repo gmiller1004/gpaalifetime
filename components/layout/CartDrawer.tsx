@@ -41,7 +41,9 @@ export function CartDrawer() {
     error,
     updateNote,
     noteSaving,
+    prepareHostedCheckout,
   } = useCart();
+  const [checkingOut, setCheckingOut] = React.useState(false);
   const [removingLineId, setRemovingLineId] = React.useState<string | null>(
     null
   );
@@ -73,6 +75,19 @@ export function CartDrawer() {
     }
     if (noteDraft === (cart?.note ?? "")) return;
     void updateNote(noteDraft);
+  };
+
+  const handleCheckout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (!cart?.checkoutUrl || checkingOut) return;
+    setCheckingOut(true);
+    try {
+      const url = await prepareHostedCheckout();
+      trackBeginCheckout(cart);
+      window.location.href = url;
+    } catch {
+      setCheckingOut(false);
+    }
   };
 
   const handleRemove = async (lineId: string) => {
@@ -232,12 +247,13 @@ export function CartDrawer() {
           <Separator className="mb-4 bg-[var(--brand-border)]" />
           <a
             href={cart?.checkoutUrl ?? "#"}
-            className={checkoutButtonClassName(!cart?.checkoutUrl)}
-            onClick={() => {
-              if (cart) trackBeginCheckout(cart);
+            className={checkoutButtonClassName(!cart?.checkoutUrl || checkingOut)}
+            onClick={(e) => {
+              void handleCheckout(e);
             }}
+            aria-disabled={!cart?.checkoutUrl || checkingOut}
           >
-            Secure checkout
+            {checkingOut ? "Preparing checkout…" : "Secure checkout"}
           </a>
           <p className="mt-3 text-center text-xs text-[var(--brand-muted)]">
             Encrypted checkout, trusted worldwide.

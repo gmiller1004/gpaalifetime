@@ -5,6 +5,10 @@
 
 import { computeAutoCartNote } from "@/lib/cart-notes";
 import { PAYDIRT_PROMO_ENABLED } from "@/lib/features";
+import {
+  AFFILIATE_CART_ATTRIBUTE_KEYS,
+  REFERRAL_CODE_ATTRIBUTE_KEY,
+} from "@/lib/mref";
 import type {
   ShopifyCart,
   ShopifyImage,
@@ -343,6 +347,10 @@ const CART_CREATE = /* GraphQL */ `
         id
         checkoutUrl
         note
+        attributes {
+          key
+          value
+        }
         lines(first: 50) {
           edges {
             node {
@@ -385,6 +393,10 @@ const CART_LINES_ADD = /* GraphQL */ `
         id
         checkoutUrl
         note
+        attributes {
+          key
+          value
+        }
         lines(first: 50) {
           edges {
             node {
@@ -427,6 +439,10 @@ const CART_LINES_REMOVE = /* GraphQL */ `
         id
         checkoutUrl
         note
+        attributes {
+          key
+          value
+        }
         lines(first: 50) {
           edges {
             node {
@@ -469,6 +485,10 @@ const CART_NOTE_UPDATE = /* GraphQL */ `
         id
         checkoutUrl
         note
+        attributes {
+          key
+          value
+        }
         lines(first: 50) {
           edges {
             node {
@@ -510,6 +530,10 @@ const CART_QUERY = /* GraphQL */ `
       id
       checkoutUrl
       note
+      attributes {
+        key
+        value
+      }
       lines(first: 50) {
         edges {
           node {
@@ -540,11 +564,58 @@ const CART_QUERY = /* GraphQL */ `
   }
 `;
 
+const CART_ATTRIBUTES_UPDATE = /* GraphQL */ `
+  mutation CartAttributesUpdate($cartId: ID!, $attributes: [AttributeInput!]!) {
+    cartAttributesUpdate(cartId: $cartId, attributes: $attributes) {
+      cart {
+        id
+        checkoutUrl
+        note
+        attributes {
+          key
+          value
+        }
+        lines(first: 50) {
+          edges {
+            node {
+              id
+              quantity
+              merchandise {
+                ... on ProductVariant {
+                  id
+                  title
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  image {
+                    url
+                    altText
+                  }
+                  product {
+                    title
+                    handle
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
 function mapCart(
   cart: {
     id: string;
     checkoutUrl: string;
     note?: string | null;
+    attributes?: Array<{ key: string; value: string }> | null;
     lines: {
       edges: Array<{
         node: {
@@ -586,13 +657,22 @@ function mapCart(
     id: cart.id,
     checkoutUrl: cart.checkoutUrl,
     note: cart.note ?? null,
+    attributes: cart.attributes ?? [],
     lines,
   };
 }
 
+function cartHasAffiliateAttributes(cart: ShopifyCart): boolean {
+  return cart.attributes.some((a) => {
+    const key = a.key.trim().toLowerCase();
+    return AFFILIATE_CART_ATTRIBUTE_KEYS.some((k) => k === key);
+  });
+}
+
 export async function createCartClient(
   merchandiseId: string,
-  quantity: number = 1
+  quantity: number = 1,
+  attributes?: Array<{ key: string; value: string }>
 ): Promise<ShopifyCart> {
   const data = await storefrontFetch<{
     cartCreate: {
@@ -602,6 +682,7 @@ export async function createCartClient(
   }>(CART_CREATE, {
     input: {
       lines: [{ merchandiseId, quantity }],
+      ...(attributes?.length ? { attributes } : {}),
     },
   });
   if (data.cartCreate.userErrors?.length) {
@@ -676,6 +757,50 @@ export async function updateCartNoteClient(
   const cart = mapCart(data.cartNoteUpdate.cart);
   if (!cart) throw new Error("Cart note update returned empty cart");
   return cart;
+}
+
+export async function updateCartAttributesClient(
+  cartId: string,
+  attributes: Array<{ key: string; value: string }>
+): Promise<ShopifyCart> {
+  const data = await storefrontFetch<{
+    cartAttributesUpdate: {
+      cart: Parameters<typeof mapCart>[0];
+      userErrors: { message: string }[];
+    };
+  }>(CART_ATTRIBUTES_UPDATE, { cartId, attributes });
+  if (data.cartAttributesUpdate.userErrors?.length) {
+    throw new Error(
+      data.cartAttributesUpdate.userErrors.map((e) => e.message).join("; ")
+    );
+  }
+  const cart = mapCart(data.cartAttributesUpdate.cart);
+  if (!cart) throw new Error("Cart attributes update returned empty cart");
+  return cart;
+}
+
+/**
+ * Stamps referral_code on the Storefront cart (order note attributes).
+ * Skips when affiliate_code / affiliate_id are already present. Does not set referral_id.
+ */
+export async function ensureMemberReferralCartAttributes(
+  cart: ShopifyCart,
+  referralCode: string | null
+): Promise<ShopifyCart> {
+  if (!referralCode) return cart;
+  if (cartHasAffiliateAttributes(cart)) return cart;
+  const current = cart.attributes.find(
+    (a) => a.key.trim().toLowerCase() === REFERRAL_CODE_ATTRIBUTE_KEY
+  )?.value;
+  if (current === referralCode) return cart;
+
+  const merged = [
+    ...cart.attributes.filter(
+      (a) => a.key.trim().toLowerCase() !== REFERRAL_CODE_ATTRIBUTE_KEY
+    ),
+    { key: REFERRAL_CODE_ATTRIBUTE_KEY, value: referralCode },
+  ];
+  return updateCartAttributesClient(cart.id, merged);
 }
 
 /**

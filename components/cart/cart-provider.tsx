@@ -6,10 +6,13 @@ import {
   addCartLinesClient,
   createCartClient,
   ensureGoldLifeBundleCartNote,
+  ensureMemberReferralCartAttributes,
   getCartClient,
   removeCartLinesClient,
   updateCartNoteClient,
 } from "@/lib/shopify";
+import { captureMrefFromLocation } from "@/lib/mref-client";
+import { REFERRAL_CODE_ATTRIBUTE_KEY } from "@/lib/mref";
 import type { ShopifyCart } from "@/types";
 
 const CART_COOKIE = "gpa_cart_id";
@@ -43,6 +46,7 @@ type CartContextValue = {
   addBundle: (merchandiseId: string, quantity?: number) => Promise<void>;
   removeLine: (lineId: string) => Promise<void>;
   updateNote: (note: string) => Promise<void>;
+  prepareHostedCheckout: () => Promise<string>;
 };
 
 const CartContext = React.createContext<CartContextValue | null>(null);
@@ -61,17 +65,26 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [noteSaving, setNoteSaving] = React.useState(false);
 
   const refreshCart = React.useCallback(async () => {
+    captureMrefFromLocation();
     const id = readCartId();
     if (!id) {
       setCart(null);
       return;
     }
     try {
-      const next = await getCartClient(id);
+      let next = await getCartClient(id);
       if (!next) {
         clearCartCookie();
         setCart(null);
         return;
+      }
+      try {
+        next = await ensureMemberReferralCartAttributes(
+          next,
+          captureMrefFromLocation()
+        );
+      } catch {
+        /* Keep the cart; checkout stamps again. */
       }
       setCart(next);
     } catch {
@@ -104,9 +117,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             { merchandiseId, quantity },
           ]);
         } else {
-          next = await createCartClient(merchandiseId, quantity);
+          const code = captureMrefFromLocation();
+          next = await createCartClient(
+            merchandiseId,
+            quantity,
+            code
+              ? [{ key: REFERRAL_CODE_ATTRIBUTE_KEY, value: code }]
+              : undefined
+          );
         }
         next = await ensureGoldLifeBundleCartNote(next);
+        try {
+          next = await ensureMemberReferralCartAttributes(
+            next,
+            captureMrefFromLocation()
+          );
+        } catch {
+          /* Keep the cart; checkout stamps again. */
+        }
         writeCartId(next.id);
         setCart(next);
         setDrawerOpen(true);
@@ -154,6 +182,36 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  const prepareHostedCheckout = React.useCallback(async () => {
+    captureMrefFromLocation();
+    const cartId = readCartId();
+    if (!cartId) {
+      const message = "Your cart is empty";
+      setError(message);
+      throw new Error(message);
+    }
+    setError(null);
+    try {
+      let next = await getCartClient(cartId);
+      if (!next) {
+        clearCartCookie();
+        setCart(null);
+        throw new Error("Your cart is empty");
+      }
+      next = await ensureMemberReferralCartAttributes(
+        next,
+        captureMrefFromLocation()
+      );
+      setCart(next);
+      return next.checkoutUrl;
+    } catch (e) {
+      const message =
+        e instanceof Error ? e.message : "Could not start checkout";
+      setError(message);
+      throw e instanceof Error ? e : new Error(message);
+    }
+  }, []);
+
   const lineCount = React.useMemo(
     () => cart?.lines.reduce((n, l) => n + l.quantity, 0) ?? 0,
     [cart]
@@ -172,6 +230,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       addBundle,
       removeLine,
       updateNote,
+      prepareHostedCheckout,
     }),
     [
       cart,
@@ -184,6 +243,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       addBundle,
       removeLine,
       updateNote,
+      prepareHostedCheckout,
     ]
   );
 

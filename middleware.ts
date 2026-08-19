@@ -2,6 +2,13 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { isBrandId, subdomainToBrandId, type BrandId } from "@/lib/brands";
+import {
+  GPAA_MREF_COOKIE,
+  GPAA_MREF_MAX_AGE_SEC,
+  MREF_QUERY_PARAM,
+  mrefCookieScope,
+  normalizeMref,
+} from "@/lib/mref";
 
 /**
  * Resolves co-branded experience from subdomain:
@@ -42,6 +49,26 @@ function resolveBrandFromHost(host: string): BrandId {
   return "default";
 }
 
+function withMrefCookie(request: NextRequest, response: NextResponse) {
+  const code = normalizeMref(request.nextUrl.searchParams.get(MREF_QUERY_PARAM));
+  if (!code) return response;
+  const host = request.headers.get("host") ?? "";
+  const { domain, secure } = mrefCookieScope(
+    host,
+    request.nextUrl.protocol === "https:"
+  );
+  response.cookies.set({
+    name: GPAA_MREF_COOKIE,
+    value: code,
+    maxAge: GPAA_MREF_MAX_AGE_SEC,
+    path: "/",
+    sameSite: "lax",
+    secure,
+    ...(domain ? { domain } : {}),
+  });
+  return response;
+}
+
 export function middleware(request: NextRequest) {
   const host = request.headers.get("host") ?? "";
   const brand = resolveBrandFromHost(host);
@@ -53,7 +80,7 @@ export function middleware(request: NextRequest) {
     path.startsWith("/api") ||
     path.match(/\.(ico|png|jpg|jpeg|svg|webp|gif|woff2|txt|xml)$/i)
   ) {
-    return NextResponse.next();
+    return withMrefCookie(request, NextResponse.next());
   }
 
   const legalPaths = ["/privacy", "/terms"];
@@ -61,7 +88,7 @@ export function middleware(request: NextRequest) {
     url.pathname = `/${brand}${path}`;
     const res = NextResponse.rewrite(url);
     res.headers.set("x-gpaa-brand", brand);
-    return res;
+    return withMrefCookie(request, res);
   }
 
   const segments = path.split("/").filter(Boolean);
@@ -70,17 +97,17 @@ export function middleware(request: NextRequest) {
   if (first && isBrandId(first)) {
     const res = NextResponse.next();
     res.headers.set("x-gpaa-brand", first);
-    return res;
+    return withMrefCookie(request, res);
   }
 
   if (path === "/" || path === "") {
     url.pathname = `/${brand}`;
     const res = NextResponse.rewrite(url);
     res.headers.set("x-gpaa-brand", brand);
-    return res;
+    return withMrefCookie(request, res);
   }
 
-  return NextResponse.next();
+  return withMrefCookie(request, NextResponse.next());
 }
 
 export const config = {

@@ -61,5 +61,7 @@ export interface ShopifyCart {
   checkoutUrl: string;
   /** Cart / order note (customer-visible; flows to checkout). */
   note: string | null;
+  /** Cart attributes become Shopify order note attributes. */
+  attributes: Array<{ key: string; value: string }>;
   lines: CartLine[];
 }
