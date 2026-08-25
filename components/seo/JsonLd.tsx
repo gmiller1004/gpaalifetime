@@ -12,7 +12,7 @@ export function JsonLdSiteAndOrganization() {
     alternateName: "GPAA",
     url,
     description:
-      "GPAA Gold Life offers GPAA Lifetime Membership bundled with Minelab, Garrett, and Gold Cube prospecting gear.",
+      "GPAA Gold Life offers GPAA Lifetime Membership, claims access, and current promotional offers including the SeptMember Founder Bag.",
   };
   const website = {
     "@context": "https://schema.org",

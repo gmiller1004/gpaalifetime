@@ -25,10 +25,13 @@ export function Header({
   brand,
   siteHost,
   hidePartnerNav = false,
+  giveawayHref,
 }: {
   brand: BrandConfig;
   siteHost: string;
   hidePartnerNav?: boolean;
+  /** Outbound link to the full SeptMember Gold Giveaway (goldprospectors.org). */
+  giveawayHref?: string;
 }) {
   const { lineCount, setDrawerOpen } = useCart();
   const coBranded = Boolean(brand.coBrandLogoSrc);
@@ -99,6 +102,16 @@ export function Header({
         <div className="flex shrink-0 items-center gap-2">
           {!hidePartnerNav ? (
             <BundleNavMenu brand={brand} siteHost={siteHost} />
+          ) : null}
+          {giveawayHref ? (
+            <a
+              href={giveawayHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="max-w-[9.5rem] text-right text-[11px] font-semibold leading-snug text-white/85 underline-offset-4 hover:text-white hover:underline sm:max-w-none sm:text-xs"
+            >
+              SeptMember Gold Giveaway
+            </a>
           ) : null}
           <Badge
             variant="outline"

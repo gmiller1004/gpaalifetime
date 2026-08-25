@@ -4,9 +4,15 @@ import { notFound } from "next/navigation";
 
 import { BrandShell } from "@/components/layout/BrandShell";
 import { getBrandConfig, isBrandId } from "@/lib/brands";
+import {
+  GPAA_SEPTMEMBER_GIVEAWAY_URL,
+  isSeptMemberOnly,
+} from "@/lib/septmember-cutover";
 import { brandCanonicalPath } from "@/lib/seo";
 import { shareImageMeta } from "@/lib/share-image";
 import type { BrandId } from "@/types";
+
+export const dynamic = "force-dynamic";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://gpaalifetime.com";
@@ -20,7 +26,8 @@ export async function generateMetadata({
   if (!isBrandId(brand)) return {};
   const c = getBrandConfig(brand);
   const id = brand as BrandId;
-  const canonicalPath = brandCanonicalPath(id);
+  const septOnly = isSeptMemberOnly();
+  const canonicalPath = septOnly ? undefined : brandCanonicalPath(id);
   const partnerKeyword = c.displayName.split("×")[0]?.trim() ?? "";
   const keywords = [
     "GPAA",
@@ -37,9 +44,13 @@ export async function generateMetadata({
     title: `${c.displayName} | Gold Life`,
     description: c.metaDescription,
     keywords,
-    alternates: {
-      canonical: canonicalPath,
-    },
+    ...(canonicalPath
+      ? {
+          alternates: {
+            canonical: canonicalPath,
+          },
+        }
+      : {}),
     robots: {
       index: true,
       follow: true,
@@ -47,7 +58,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${c.displayName} | Gold Life`,
       description: c.metaDescription,
-      url: canonicalPath,
+      url: canonicalPath ?? "/",
       siteName: "GPAA Gold Life",
       locale: "en_US",
       type: "website",
@@ -74,8 +85,16 @@ export default async function BrandLayout({
   const config = getBrandConfig(brand);
   const h = await headers();
   const siteHost = h.get("x-forwarded-host") ?? h.get("host") ?? "";
+  const septOnly = isSeptMemberOnly();
   return (
-    <BrandShell brand={config} siteHost={siteHost}>
+    <BrandShell
+      brand={config}
+      siteHost={siteHost}
+      hidePartnerNav={septOnly}
+      hideOtherBundles={septOnly}
+      hidePromoChrome={septOnly}
+      giveawayHref={septOnly ? GPAA_SEPTMEMBER_GIVEAWAY_URL : undefined}
+    >
       {children}
     </BrandShell>
   );

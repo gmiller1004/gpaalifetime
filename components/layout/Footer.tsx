@@ -33,9 +33,11 @@ export function Footer({
               {brand.displayName}
             </p>
             <p className="mt-2 max-w-md text-balance leading-relaxed text-[#1c1d1d]">
-              {brand.membershipOnly
-                ? "Official GPAA Lifetime Membership — claims, guides, and member programs. Partner gear bundles available when you're ready."
-                : "Gold Life bundles combine GPAA Lifetime Membership with trusted partner gear. Secure checkout—fast and mobile-ready."}
+              {hideOtherBundles
+                ? "Official GPAA Lifetime Membership — claims, guides, member programs, and the SeptMember Founder Bag offer. Secure checkout."
+                : brand.membershipOnly
+                  ? "Official GPAA Lifetime Membership — claims, guides, and member programs. Partner gear bundles available when you're ready."
+                  : "Gold Life bundles combine GPAA Lifetime Membership with trusted partner gear. Secure checkout—fast and mobile-ready."}
             </p>
           </div>
 

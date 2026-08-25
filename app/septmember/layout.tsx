@@ -5,6 +5,9 @@ import type { ReactNode } from "react";
 import { SeptMemberShell } from "@/components/layout/SeptMemberShell";
 import { getBrandConfig } from "@/lib/brands";
 import { septMemberBenefitsIntro, septMemberImages, septMemberMeta } from "@/lib/septmember";
+import { isSeptMemberOnly } from "@/lib/septmember-cutover";
+
+export const dynamic = "force-dynamic";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://gpaalifetime.com";
@@ -16,41 +19,44 @@ const ogImage = {
   alt: "GPAA Lifetime kit with The Founder Bag, hat, and gold pan",
 };
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: septMemberMeta.title,
-  description: septMemberMeta.description,
-  keywords: [
-    "GPAA",
-    "Gold Life",
-    "Lifetime Membership",
-    "SeptMember",
-    "Founder Bag",
-    "gold prospecting",
-  ],
-  alternates: {
-    canonical: "/septmember",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  openGraph: {
+export function generateMetadata(): Metadata {
+  const canonicalPath = isSeptMemberOnly() ? "/" : "/septmember";
+  return {
+    metadataBase: new URL(siteUrl),
     title: septMemberMeta.title,
     description: septMemberMeta.description,
-    url: "/septmember",
-    siteName: "GPAA Gold Life",
-    locale: "en_US",
-    type: "website",
-    images: [ogImage],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: septMemberMeta.title,
-    description: septMemberMeta.description,
-    images: [ogImage.url],
-  },
-};
+    keywords: [
+      "GPAA",
+      "Gold Life",
+      "Lifetime Membership",
+      "SeptMember",
+      "Founder Bag",
+      "gold prospecting",
+    ],
+    alternates: {
+      canonical: canonicalPath,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    openGraph: {
+      title: septMemberMeta.title,
+      description: septMemberMeta.description,
+      url: canonicalPath,
+      siteName: "GPAA Gold Life",
+      locale: "en_US",
+      type: "website",
+      images: [ogImage],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: septMemberMeta.title,
+      description: septMemberMeta.description,
+      images: [ogImage.url],
+    },
+  };
+}
 
 export default async function SeptMemberLayout({
   children,

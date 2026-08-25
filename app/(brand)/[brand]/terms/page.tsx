@@ -5,7 +5,7 @@ import { getSiteUrl } from "@/lib/seo";
 import { shareImageMeta } from "@/lib/share-image";
 
 const termsDescription =
-  "Terms and conditions for the GPAA Gold Life store: orders, checkout, shipping, returns, and use of the Minelab, Garrett, and Gold Cube lifetime bundle site.";
+  "Terms and conditions for the GPAA Gold Life store: lifetime membership orders, checkout, shipping, returns, and use of gpaalifetime.com.";
 
 export async function generateMetadata({
   params,
@@ -48,10 +48,10 @@ export default function TermsPage() {
   return (
     <LegalDocument title="Terms & Conditions">
       <p>
-        Welcome to the GPAA Gold Life partner bundle site, operated as an extension of
-        the Gold Prospectors Association of America (GPAA) and the Lost Dutchman&apos;s
-        Mining Association (LDMA). By accessing or using this site, you agree to these
-        terms.
+        Welcome to GPAA Gold Life, operated as an extension of the Gold
+        Prospectors Association of America (GPAA) and the Lost Dutchman&apos;s
+        Mining Association (LDMA). By accessing or using this site, you agree to
+        these terms.
       </p>
 
       <h2>Eligibility and use</h2>
@@ -65,14 +65,15 @@ export default function TermsPage() {
       <p>
         Product descriptions, images, and pricing are subject to change without notice.
         We strive for accuracy; errors may be corrected where discovered. GPAA Lifetime
-        Membership benefits and partner equipment bundles are described on this site
-        and confirmed at checkout.
+        Membership benefits and current promotional offers (including The Founder Bag
+        during SeptMember) are described on this site and confirmed at checkout.
       </p>
 
       <h2>Orders and payment</h2>
       <p>
         When you place an order, you offer to purchase the items in your cart at the
-        prices shown, plus applicable taxes and shipping. We reserve the right to
+        prices shown. Taxes and shipping appear at checkout unless the offer on this
+        site states otherwise (for example, free shipping). We reserve the right to
         refuse or cancel orders, including for suspected fraud, inventory limits, or
         pricing errors. Payment is processed through our commerce provider using
         industry-standard security practices.
@@ -130,7 +131,7 @@ export default function TermsPage() {
       </p>
 
       <p className="text-xs text-[var(--brand-muted)]">
-        Last updated: April 8, 2026
+        Last updated: August 26, 2026
       </p>
     </LegalDocument>
   );

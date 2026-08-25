@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { ExitIntentModal } from "@/components/mailchimp/ExitIntentModal";
 import type { BrandConfig } from "@/lib/brands";
+import { GPAA_SEPTMEMBER_GIVEAWAY_URL } from "@/lib/septmember-cutover";
 import { cn } from "@/lib/utils";
 
 export function SeptMemberShell({
@@ -42,7 +43,12 @@ export function SeptMemberShell({
           style={themeVars}
         >
           <div className="sticky top-0 z-40">
-            <Header brand={brand} siteHost={siteHost} hidePartnerNav />
+            <Header
+              brand={brand}
+              siteHost={siteHost}
+              hidePartnerNav
+              giveawayHref={GPAA_SEPTMEMBER_GIVEAWAY_URL}
+            />
             <div
               role="note"
               className="border-b border-black/10 bg-[#C45C26] px-4 py-2.5 text-center text-xs font-semibold leading-snug text-white sm:text-sm"

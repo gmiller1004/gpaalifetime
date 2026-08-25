@@ -5,7 +5,7 @@ import { getSiteUrl } from "@/lib/seo";
 import { shareImageMeta } from "@/lib/share-image";
 
 const privacyDescription =
-  "GPAA Gold Life privacy policy: how we collect, use, and protect data when you shop Minelab, Garrett, and Gold Cube lifetime bundles and checkout securely.";
+  "GPAA Gold Life privacy policy: how we collect, use, and protect data when you shop GPAA Lifetime Membership and check out securely.";
 
 export async function generateMetadata({
   params,
@@ -66,14 +66,16 @@ export default function PrivacyPolicyPage() {
         </li>
         <li>
           <strong>Cookies and similar technologies:</strong> used to run the site,
-          remember preferences, measure performance, and support secure checkout.
+          remember your cart, measure performance, support secure checkout, and
+          remember a member referral code (<code>mref</code>) when you arrive from a
+          GPAA member link so that referrer can be credited if you join.
         </li>
       </ul>
 
       <h2>How we use information</h2>
       <p>We use information to:</p>
       <ul>
-        <li>Process and fulfill orders, memberships, and partner bundle offers.</li>
+        <li>Process and fulfill orders, memberships, and current promotional offers.</li>
         <li>Provide customer support and respond to inquiries.</li>
         <li>Improve the site, prevent fraud, and meet legal obligations.</li>
         <li>Send transactional messages about your order or account when needed.</li>
@@ -121,7 +123,7 @@ export default function PrivacyPolicyPage() {
       </p>
 
       <p className="text-xs text-[var(--brand-muted)]">
-        Last updated: April 8, 2026
+        Last updated: August 26, 2026
       </p>
     </LegalDocument>
   );

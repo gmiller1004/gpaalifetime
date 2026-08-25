@@ -23,11 +23,19 @@ export function BrandShell({
   brand,
   siteHost,
   children,
+  hidePartnerNav = false,
+  hideOtherBundles = false,
+  hidePromoChrome = false,
+  giveawayHref,
 }: {
   brand: BrandConfig;
   /** Request host for bundle links (localhost vs. production subdomains). */
   siteHost: string;
   children: React.ReactNode;
+  hidePartnerNav?: boolean;
+  hideOtherBundles?: boolean;
+  hidePromoChrome?: boolean;
+  giveawayHref?: string;
 }) {
   const pathname = usePathname();
   const isLegalPage =
@@ -69,14 +77,29 @@ export function BrandShell({
           style={themeVars}
         >
           <div className="sticky top-0 z-40">
-            <Header brand={brand} siteHost={siteHost} />
-            <WeekendPromoBar />
-            <MinelabGm1000PromoBar brandId={brand.id} />
-            <PromoBar brandId={brand.id} />
+            <Header
+              brand={brand}
+              siteHost={siteHost}
+              hidePartnerNav={hidePartnerNav}
+              giveawayHref={giveawayHref}
+            />
+            {!hidePromoChrome ? (
+              <>
+                <WeekendPromoBar />
+                <MinelabGm1000PromoBar brandId={brand.id} />
+                <PromoBar brandId={brand.id} />
+              </>
+            ) : null}
           </div>
-          {!isLegalPage ? <GpaLifetimeValueStrip brand={brand} /> : null}
+          {!isLegalPage && !hidePromoChrome ? (
+            <GpaLifetimeValueStrip brand={brand} />
+          ) : null}
           <main className="flex-1">{children}</main>
-          <Footer brand={brand} siteHost={siteHost} />
+          <Footer
+            brand={brand}
+            siteHost={siteHost}
+            hideOtherBundles={hideOtherBundles}
+          />
           <CartDrawer />
           {!isLegalPage ? <ExitIntentModal /> : null}
         </div>

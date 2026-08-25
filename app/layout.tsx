@@ -29,11 +29,11 @@ const geistMono = Geist_Mono({
 const faviconSrc = "/brands/gpaa-gold-life.png";
 
 const rootDescription =
-  "Buy GPAA Lifetime Membership bundled with Minelab Gold Monster, Garrett Goldmaster, or Gold Cube gear—claims access, secure Shopify checkout, official GPAA Gold Life store.";
+  "Join GPAA for life: claims access, Gold Prospectors Magazine, chapters, and the SeptMember Founder Bag offer. Secure Shopify checkout at gpaalifetime.com.";
 
 export const metadata: Metadata = {
   title: {
-    default: "GPAA Gold Life | Lifetime Membership Bundles",
+    default: "GPAA Gold Life | Lifetime Membership",
     template: "%s | GPAA Gold Life",
   },
   description: rootDescription,
@@ -41,11 +41,10 @@ export const metadata: Metadata = {
     "GPAA",
     "Gold Life",
     "GPAA Lifetime Membership",
-    "Minelab Gold Monster",
-    "Garrett Goldmaster",
-    "Gold Cube",
-    "gold prospecting equipment",
-    "gold mining bundle",
+    "SeptMember",
+    "Founder Bag",
+    "gold prospecting",
+    "gold prospectors",
   ],
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://gpaalifetime.com"
@@ -59,13 +58,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "GPAA Gold Life",
-    title: "GPAA Gold Life | Lifetime Membership Bundles",
+    title: "GPAA Gold Life | Lifetime Membership",
     description: rootDescription,
     images: [shareImageMeta],
   },
   twitter: {
     card: "summary_large_image",
-    title: "GPAA Gold Life | Lifetime Membership Bundles",
+    title: "GPAA Gold Life | Lifetime Membership",
     description: rootDescription,
     images: [shareImageMeta.url],
   },
