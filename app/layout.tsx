@@ -3,6 +3,7 @@ import { DM_Sans, Fraunces, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { GaRouteTracker } from "@/components/analytics/GaRouteTracker";
+import { KlaviyoOnsite } from "@/components/analytics/KlaviyoOnsite";
 import { JsonLdSiteAndOrganization } from "@/components/seo/JsonLd";
 import { shareImageMeta } from "@/lib/share-image";
 
@@ -82,6 +83,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-white text-[#1c1d1d]">
         <JsonLdSiteAndOrganization />
+        <KlaviyoOnsite />
         {children}
         {gaMeasurementId ? (
           <>

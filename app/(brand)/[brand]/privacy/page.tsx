@@ -66,9 +66,11 @@ export default function PrivacyPolicyPage() {
         </li>
         <li>
           <strong>Cookies and similar technologies:</strong> used to run the site,
-          remember your cart, measure performance, support secure checkout, and
+          remember your cart, measure performance, support secure checkout,
           remember a member referral code (<code>mref</code>) when you arrive from a
-          GPAA member link so that referrer can be credited if you join.
+          GPAA member link so that referrer can be credited if you join, and (after
+          you sign up for email) onsite activity with Klaviyo so we can send relevant
+          updates.
         </li>
       </ul>
 

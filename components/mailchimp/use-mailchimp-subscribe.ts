@@ -4,6 +4,7 @@ import * as React from "react";
 
 import { trackKlaviyoLead } from "@/lib/analytics";
 import type { LeadFormSource } from "@/lib/analytics";
+import { identifyKlaviyoProfile } from "@/lib/klaviyo-client";
 import { writeSubscribed } from "@/lib/mailchimp-storage";
 
 export function useKlaviyoSubscribe() {
@@ -33,6 +34,7 @@ export function useKlaviyoSubscribe() {
           return false;
         }
         writeSubscribed();
+        identifyKlaviyoProfile(email, firstName);
         if (options?.source) {
           trackKlaviyoLead(options.source);
         }
