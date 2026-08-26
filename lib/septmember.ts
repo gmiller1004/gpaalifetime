@@ -6,6 +6,9 @@ import {
 export const SEPTMEMBER_YOUTUBE_ID = "jjQSzA6O6Uo";
 export const SEPTMEMBER_YOUTUBE_EMBED = `https://www.youtube-nocookie.com/embed/${SEPTMEMBER_YOUTUBE_ID}`;
 
+/** LDMA Lifetime includes GPAA Lifetime benefits and also ships The Founder Bag. */
+export const LDMA_LIFETIME_MEMBERSHIPS_URL = "https://myldma.com/memberships";
+
 export const septMemberImages = {
   kit: "/septmember/founder-kit.png",
   kitWide: "/septmember/founder-kit-wide.png",

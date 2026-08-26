@@ -14,8 +14,9 @@ export function SeptMemberHero() {
           <p className="max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
             Lifetime claims access, the Mining Guide, magazine, and chapters —
             plus The Founder Bag, an exclusive paydirt bag with at least{" "}
-            <span className="font-semibold text-white">$140 in gold</span>. One
-            bag every day hides a bonus mystery nugget.
+            <span className="font-semibold text-white">$140 in gold</span>. From
+            August 26 through September 30, one bag each day hides a bonus
+            mystery nugget.
           </p>
           <ul className="flex flex-col gap-2 text-sm text-white/80 sm:text-base">
             <li>You keep what you find on GPAA claims — for life.</li>

@@ -6,7 +6,10 @@ import { CheckIcon, Loader2Icon } from "lucide-react";
 import { useCart } from "@/components/cart/cart-provider";
 import { Button } from "@/components/ui/button";
 import { trackAddToCart } from "@/lib/analytics";
-import { septMemberOffers } from "@/lib/septmember";
+import {
+  LDMA_LIFETIME_MEMBERSHIPS_URL,
+  septMemberOffers,
+} from "@/lib/septmember";
 import { shopifyVariantGid, variantIdsMatch } from "@/lib/shopify-ids";
 import { cn } from "@/lib/utils";
 import type { Money, ShopifyProduct, ShopifyProductVariant } from "@/types";
@@ -218,10 +221,20 @@ export function SeptMemberOfferCards({
           </p>
         ) : null}
         <p className="mx-auto mt-6 max-w-2xl text-center text-xs leading-relaxed text-[var(--brand-muted)]">
-          The Founder Bag ships only with a new GPAA Lifetime membership during
-          this event. One Founder Bag per day includes a bonus mystery gold
-          nugget. The $1,500 offer sends your next four bags on this same date
-          each year. Ships free.
+          The Founder Bag isn&apos;t sold separately. It ships with a new GPAA
+          Lifetime membership here, or with LDMA Lifetime (which includes GPAA
+          Lifetime benefits) at{" "}
+          <a
+            href={LDMA_LIFETIME_MEMBERSHIPS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-[var(--brand-primary)] underline-offset-4 hover:underline"
+          >
+            myldma.com/memberships
+          </a>
+          . From August 26 through September 30, one Founder Bag each day
+          includes a bonus mystery gold nugget. The $1,500 offer sends your next
+          four bags on this same date each year. Ships free.
         </p>
       </div>
     </section>

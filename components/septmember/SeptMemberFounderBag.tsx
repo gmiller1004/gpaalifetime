@@ -1,19 +1,41 @@
 import Image from "next/image";
+import type { ReactNode } from "react";
 
-import { septMemberImages } from "@/lib/septmember";
+import {
+  LDMA_LIFETIME_MEMBERSHIPS_URL,
+  septMemberImages,
+} from "@/lib/septmember";
 
-const points = [
+const linkClass =
+  "font-medium text-[var(--brand-primary)] underline-offset-4 hover:underline";
+
+const points: { title: string; body: ReactNode }[] = [
   {
     title: "At least $140 in gold",
     body: "Every Founder Bag is packed with paydirt that holds a minimum of $140 in gold value. You pan it. You keep it.",
   },
   {
     title: "A mystery nugget every day",
-    body: "One Founder Bag each day includes a bonus mystery gold nugget. You won’t know until you open it — that’s the giveaway.",
+    body: "From August 26 through September 30, one Founder Bag each day includes a bonus mystery gold nugget. You won’t know until you open it — that’s the giveaway.",
   },
   {
-    title: "Only with a new lifetime membership",
-    body: "You can’t buy this bag later in the store. It’s only packed with new GPAA Lifetime memberships during SeptMember.",
+    title: "Not sold on its own",
+    body: (
+      <>
+        You can&apos;t buy this bag later in the store. During SeptMember it
+        ships with a new GPAA Lifetime membership here, or with LDMA Lifetime
+        (which includes GPAA Lifetime benefits) at{" "}
+        <a
+          href={LDMA_LIFETIME_MEMBERSHIPS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={linkClass}
+        >
+          myldma.com/memberships
+        </a>
+        .
+      </>
+    ),
   },
 ];
 
@@ -43,8 +65,8 @@ export function SeptMemberFounderBag() {
           </h2>
           <p className="mt-4 text-base leading-relaxed text-[var(--brand-body)]">
             Named in memory of GPAA founder George &ldquo;Buzzard&rdquo; Massie.
-            During SeptMember, every new lifetime member gets one — and one bag
-            a day hides extra gold.
+            From August 26 through September 30, one Founder Bag each day hides
+            extra gold — the SeptMember mystery nugget.
           </p>
           <div className="mt-8 grid gap-4">
             {points.map((p) => (

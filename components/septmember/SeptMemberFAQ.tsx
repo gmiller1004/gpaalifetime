@@ -1,11 +1,33 @@
-const faqs = [
+import type { ReactNode } from "react";
+
+import { LDMA_LIFETIME_MEMBERSHIPS_URL } from "@/lib/septmember";
+
+const ldmaLink = (
+  <a
+    href={LDMA_LIFETIME_MEMBERSHIPS_URL}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="font-medium text-[var(--brand-primary)] underline-offset-4 hover:underline"
+  >
+    myldma.com/memberships
+  </a>
+);
+
+const faqs: { q: string; a: ReactNode }[] = [
   {
     q: "What’s actually in The Founder Bag?",
-    a: "Paydirt with at least $140 in gold. You pan it at home or at a chapter outing. One bag each day also hides a bonus mystery gold nugget.",
+    a: "Paydirt with at least $140 in gold. You pan it at home or at a chapter outing. From August 26 through September 30, one bag each day also hides a bonus mystery gold nugget.",
   },
   {
     q: "Can I buy the bag without joining?",
-    a: "No. The Founder Bag only ships with a new GPAA Lifetime membership during SeptMember. After that, it’s gone — unless you already locked in the four extra years.",
+    a: (
+      <>
+        No. The Founder Bag isn&apos;t sold on its own. During SeptMember it
+        ships with a new GPAA Lifetime membership here, or with LDMA Lifetime
+        (which includes GPAA Lifetime benefits) at {ldmaLink}. After that,
+        it&apos;s gone — unless you already locked in the four extra years.
+      </>
+    ),
   },
   {
     q: "What’s the difference between $900 and $1,500?",
@@ -21,7 +43,7 @@ const faqs = [
   },
   {
     q: "When does this end?",
-    a: "SeptMember is only for a short window. Lifetime membership lasts forever. If you want Founder Bags on this date for the next four years, you have to lock that in during this event.",
+    a: "The mystery-nugget giveaway runs August 26 through September 30 — one Founder Bag each day. Lifetime membership lasts forever. If you want Founder Bags on this date for the next four years, you have to lock that in during this event.",
   },
 ];
 

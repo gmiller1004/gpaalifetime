@@ -54,8 +54,8 @@ export function SeptMemberShell({
               className="border-b border-black/10 bg-[#C45C26] px-4 py-2.5 text-center text-xs font-semibold leading-snug text-white sm:text-sm"
             >
               <p className="mx-auto max-w-4xl text-balance">
-                SeptMember Gold Giveaway — The Founder Bag is only available with a
-                new lifetime membership
+                SeptMember Gold Giveaway — one Founder Bag each day, Aug 26–Sept
+                30, includes a mystery gold nugget
               </p>
             </div>
           </div>

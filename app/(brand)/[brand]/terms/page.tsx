@@ -66,7 +66,10 @@ export default function TermsPage() {
         Product descriptions, images, and pricing are subject to change without notice.
         We strive for accuracy; errors may be corrected where discovered. GPAA Lifetime
         Membership benefits and current promotional offers (including The Founder Bag
-        during SeptMember) are described on this site and confirmed at checkout.
+        during SeptMember) are described on this site and confirmed at checkout. The
+        Founder Bag may also be offered with LDMA Lifetime memberships, which include
+        GPAA Lifetime benefits, at{" "}
+        <a href="https://myldma.com/memberships">myldma.com/memberships</a>.
       </p>
 
       <h2>Orders and payment</h2>
