@@ -5,6 +5,7 @@ import { CartDrawer } from "@/components/layout/CartDrawer";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { ExitIntentModal } from "@/components/mailchimp/ExitIntentModal";
+import { SeptMemberCountdown } from "@/components/septmember/SeptMemberCountdown";
 import type { BrandConfig } from "@/lib/brands";
 import { GPAA_SEPTMEMBER_GIVEAWAY_URL } from "@/lib/septmember-cutover";
 import { cn } from "@/lib/utils";
@@ -49,15 +50,7 @@ export function SeptMemberShell({
               hidePartnerNav
               giveawayHref={GPAA_SEPTMEMBER_GIVEAWAY_URL}
             />
-            <div
-              role="note"
-              className="border-b border-black/10 bg-[#C45C26] px-4 py-2.5 text-center text-xs font-semibold leading-snug text-white sm:text-sm"
-            >
-              <p className="mx-auto max-w-4xl text-balance">
-                SeptMember Gold Giveaway — one Founder Bag each day, Aug 26–Sept
-                30, includes a mystery gold nugget
-              </p>
-            </div>
+            <SeptMemberCountdown />
           </div>
           <main className="flex-1">{children}</main>
           <Footer brand={brand} siteHost={siteHost} hideOtherBundles />
