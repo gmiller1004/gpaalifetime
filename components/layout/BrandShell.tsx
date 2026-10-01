@@ -26,6 +26,7 @@ export function BrandShell({
   hidePartnerNav = false,
   hideOtherBundles = false,
   hidePromoChrome = false,
+  septMemberActive = false,
   giveawayHref,
 }: {
   brand: BrandConfig;
@@ -35,6 +36,7 @@ export function BrandShell({
   hidePartnerNav?: boolean;
   hideOtherBundles?: boolean;
   hidePromoChrome?: boolean;
+  septMemberActive?: boolean;
   giveawayHref?: string;
 }) {
   const pathname = usePathname();
@@ -99,6 +101,7 @@ export function BrandShell({
             brand={brand}
             siteHost={siteHost}
             hideOtherBundles={hideOtherBundles}
+            septMemberActive={septMemberActive}
           />
           <CartDrawer />
           {!isLegalPage ? <ExitIntentModal /> : null}

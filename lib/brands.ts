@@ -6,7 +6,10 @@
 
 import type { BrandId } from "@/types";
 import { placeholderHero } from "@/lib/placeholders";
-import { LIFETIME_MEMBERSHIP_VARIANT_ID } from "@/lib/shopify-ids";
+import {
+  LIFETIME_MEMBERSHIP_PRODUCT_ID,
+  LIFETIME_MEMBERSHIP_VARIANT_ID,
+} from "@/lib/shopify-ids";
 
 export type { BrandId };
 
@@ -45,6 +48,8 @@ export interface BrandConfig {
   metaDescription: string;
   /** Apex landing — GPAA Lifetime only (no partner equipment in this checkout). */
   membershipOnly?: boolean;
+  /** Load this Shopify product (numeric id or GID) before falling back to the handle. */
+  productId?: string;
   /** Pin Storefront checkout to a single variant (numeric id or GID). */
   fixedVariantId?: string;
   heroBadge?: string;
@@ -77,6 +82,7 @@ export const brands: Record<BrandId, BrandConfig> = {
     id: "default",
     slug: "default",
     productHandle: "gpaa-lifetime-membership",
+    productId: LIFETIME_MEMBERSHIP_PRODUCT_ID,
     fixedVariantId: LIFETIME_MEMBERSHIP_VARIANT_ID,
     membershipOnly: true,
     displayName: "GPAA Gold Life",
@@ -93,7 +99,7 @@ export const brands: Record<BrandId, BrandConfig> = {
     heroCtaLabel: "Join GPAA for life",
     bundleName: "GPAA Lifetime Membership",
     bundleDescription:
-      "One membership, lifetime access — the same GPAA core every Gold Life bundle is built on, without partner equipment in this order.",
+      "One membership, lifetime access — claims, guides, the magazine, and the GPAA member community for good.",
     bundleItems: [
       {
         title: "Claims & leases",
@@ -112,7 +118,7 @@ export const brands: Record<BrandId, BrandConfig> = {
       },
     ],
     benefitsIntro:
-      "Lifetime GPAA membership is the foundation: where you can prospect, who you learn beside, and what you read between trips. Partner gear bundles are optional add-ons when you're ready.",
+      "Lifetime GPAA membership is the foundation: where you can prospect, who you learn beside, and what you read between trips.",
     ctaHeadline: "Ready for lifetime claims access?",
     ctaSubheadline:
       "Add GPAA Lifetime Membership to your cart and complete secure checkout in minutes — most members finish on a phone before they head to the hills.",

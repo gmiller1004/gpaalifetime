@@ -6,9 +6,6 @@ import {
 export const SEPTMEMBER_YOUTUBE_ID = "jjQSzA6O6Uo";
 export const SEPTMEMBER_YOUTUBE_EMBED = `https://www.youtube-nocookie.com/embed/${SEPTMEMBER_YOUTUBE_ID}`;
 
-/** End of Sept 30, 2026 Pacific: Founder Bag offers and the daily nugget end; Lifetime returns to $2,499. */
-export const SEPTMEMBER_ENDS_AT_MS = Date.parse("2026-10-01T00:00:00-07:00");
-
 /** LDMA Lifetime includes GPAA Lifetime benefits and also ships The Founder Bag. */
 export const LDMA_LIFETIME_MEMBERSHIPS_URL = "https://myldma.com/memberships";
 

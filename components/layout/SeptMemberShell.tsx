@@ -53,7 +53,12 @@ export function SeptMemberShell({
             <SeptMemberCountdown />
           </div>
           <main className="flex-1">{children}</main>
-          <Footer brand={brand} siteHost={siteHost} hideOtherBundles />
+          <Footer
+            brand={brand}
+            siteHost={siteHost}
+            hideOtherBundles
+            septMemberActive
+          />
           <CartDrawer />
           <ExitIntentModal />
         </div>

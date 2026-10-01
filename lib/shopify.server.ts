@@ -88,10 +88,14 @@ export async function getProductByVariantId(
   }
 }
 
-/** Loads Shopify product for a brand (variant pin or product handle). */
+/** Loads Shopify product for a brand (product id, variant pin, or product handle). */
 export async function getProductForBrand(
   brand: BrandConfig
 ): Promise<ShopifyProduct | null> {
+  if (brand.productId) {
+    const byId = await getProductById(brand.productId);
+    if (byId) return byId;
+  }
   if (brand.fixedVariantId) {
     const fromVariant = await getProductByVariantId(brand.fixedVariantId);
     if (fromVariant) return fromVariant;

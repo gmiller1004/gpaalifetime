@@ -7,10 +7,12 @@ export function Footer({
   brand,
   siteHost,
   hideOtherBundles = false,
+  septMemberActive = false,
 }: {
   brand: BrandConfig;
   siteHost: string;
   hideOtherBundles?: boolean;
+  septMemberActive?: boolean;
 }) {
   const otherBundles = hideOtherBundles
     ? []
@@ -34,7 +36,9 @@ export function Footer({
             </p>
             <p className="mt-2 max-w-md text-balance leading-relaxed text-[#1c1d1d]">
               {hideOtherBundles
-                ? "Official GPAA Lifetime Membership — claims, guides, member programs, and the SeptMember Founder Bag offer. Secure checkout."
+                ? septMemberActive
+                  ? "Official GPAA Lifetime Membership — claims, guides, member programs, and the SeptMember Founder Bag offer. Secure checkout."
+                  : "Official GPAA Lifetime Membership — claims, guides, and member programs. Secure checkout."
                 : brand.membershipOnly
                   ? "Official GPAA Lifetime Membership — claims, guides, and member programs. Partner gear bundles available when you're ready."
                   : "Gold Life bundles combine GPAA Lifetime Membership with trusted partner gear. Secure checkout—fast and mobile-ready."}

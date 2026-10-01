@@ -9,7 +9,7 @@ import {
   mrefCookieScope,
   normalizeMref,
 } from "@/lib/mref";
-import { isSeptMemberOnly } from "@/lib/septmember-cutover";
+import { isSeptMemberOnly, isSeptMemberOver } from "@/lib/septmember-cutover";
 
 /**
  * Resolves co-branded experience from subdomain:
@@ -131,7 +131,7 @@ function septMemberOnlyMiddleware(request: NextRequest) {
   }
 
   if (path === "/" || path === "") {
-    url.pathname = "/septmember";
+    url.pathname = isSeptMemberOver() ? "/default" : "/septmember";
     const res = NextResponse.rewrite(url);
     res.headers.set("x-gpaa-brand", "default");
     return withMrefCookie(request, res);

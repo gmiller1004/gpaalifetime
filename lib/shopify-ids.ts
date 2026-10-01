@@ -12,8 +12,9 @@ export function shopifyProductGid(id: string): string {
   return `gid://shopify/Product/${trimmed}`;
 }
 
-/** GPAA Lifetime Membership — membership-only SKU (not a partner bundle). */
-export const LIFETIME_MEMBERSHIP_VARIANT_ID = "54097004921142";
+/** GPAA Lifetime Membership ($2,499) — membership-only product (not a partner bundle). */
+export const LIFETIME_MEMBERSHIP_PRODUCT_ID = "1747559612458";
+export const LIFETIME_MEMBERSHIP_VARIANT_ID = "49543075299638";
 
 /** SeptMember Gold Giveaway — Gold Life Lifetime + Founder Bag. */
 export const SEPTMEMBER_PRODUCT_ID = "10816780173622";

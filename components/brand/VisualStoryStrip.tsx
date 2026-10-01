@@ -47,7 +47,9 @@ export function VisualStoryStrip({ brand }: { brand: BrandConfig }) {
             The gear, the ground, and the guidance
           </h2>
           <p className="mt-3 text-[var(--brand-body)]">
-            A Gold Life bundle isn’t only detectors or recovery gear—it’s
+            {brand.membershipOnly
+              ? "GPAA Lifetime Membership is "
+              : "A Gold Life bundle isn’t only detectors or recovery gear—it’s "}
             lifetime GPAA access to claims and leases, plus{" "}
             <span className="font-medium text-[#1c1d1d]">
               Gold Prospectors Magazine

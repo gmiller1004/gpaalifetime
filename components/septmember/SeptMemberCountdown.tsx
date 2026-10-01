@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { SEPTMEMBER_ENDS_AT_MS } from "@/lib/septmember";
+import { SEPTMEMBER_ENDS_AT_MS } from "@/lib/septmember-cutover";
 
 function remainingParts(ms: number) {
   const totalSeconds = Math.max(0, Math.floor(ms / 1000));

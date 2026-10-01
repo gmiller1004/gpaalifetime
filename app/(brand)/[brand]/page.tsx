@@ -19,6 +19,7 @@ import { ProofMetrics } from "@/components/brand/ProofMetrics";
 import { TrustStrip } from "@/components/brand/TrustStrip";
 import { VisualStoryStrip } from "@/components/brand/VisualStoryStrip";
 import { getBrandConfig, isBrandId } from "@/lib/brands";
+import { isSeptMemberOnly } from "@/lib/septmember-cutover";
 import { getProductForBrand } from "@/lib/shopify.server";
 
 export default async function BrandHomePage({
@@ -44,12 +45,14 @@ export default async function BrandHomePage({
         <Benefits brand={config} />
         <VisualStoryStrip brand={config} />
         <BundleBreakdown brand={config} product={product} />
-        <PartnerBundlesPromo siteHost={siteHost} />
+        {!isSeptMemberOnly() ? (
+          <PartnerBundlesPromo siteHost={siteHost} />
+        ) : null}
         <KitShowcase brand={config} />
         <MemberReviews />
         <GpaaClaimsAndGuide />
         <GoldProspectorsMagazineSection />
-        <ConversionFAQ />
+        <ConversionFAQ membershipOnly />
         <CTA brand={config} product={product} />
       </>
     );

@@ -1,3 +1,4 @@
+import { isSeptMemberActive } from "@/lib/septmember-cutover";
 import { getSiteUrl } from "@/lib/seo";
 
 /**
@@ -11,8 +12,9 @@ export function JsonLdSiteAndOrganization() {
     name: "Gold Prospectors Association of America",
     alternateName: "GPAA",
     url,
-    description:
-      "GPAA Gold Life offers GPAA Lifetime Membership, claims access, and current promotional offers including the SeptMember Founder Bag.",
+    description: isSeptMemberActive()
+      ? "GPAA Gold Life offers GPAA Lifetime Membership, claims access, and current promotional offers including the SeptMember Founder Bag."
+      : "GPAA Gold Life offers GPAA Lifetime Membership, claims access, and member programs.",
   };
   const website = {
     "@context": "https://schema.org",

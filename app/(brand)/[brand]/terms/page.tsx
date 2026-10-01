@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { LegalDocument } from "@/components/legal/LegalDocument";
+import { isSeptMemberActive } from "@/lib/septmember-cutover";
 import { getSiteUrl } from "@/lib/seo";
 import { shareImageMeta } from "@/lib/share-image";
 
@@ -64,12 +65,21 @@ export default function TermsPage() {
       <h2>Products and pricing</h2>
       <p>
         Product descriptions, images, and pricing are subject to change without notice.
-        We strive for accuracy; errors may be corrected where discovered. GPAA Lifetime
-        Membership benefits and current promotional offers (including The Founder Bag
-        during SeptMember) are described on this site and confirmed at checkout. The
-        Founder Bag may also be offered with LDMA Lifetime memberships, which include
-        GPAA Lifetime benefits, at{" "}
-        <a href="https://myldma.com/memberships">myldma.com/memberships</a>.
+        We strive for accuracy; errors may be corrected where discovered.{" "}
+        {isSeptMemberActive() ? (
+          <>
+            GPAA Lifetime Membership benefits and current promotional offers
+            (including The Founder Bag during SeptMember) are described on this site
+            and confirmed at checkout. The Founder Bag may also be offered with LDMA
+            Lifetime memberships, which include GPAA Lifetime benefits, at{" "}
+            <a href="https://myldma.com/memberships">myldma.com/memberships</a>.
+          </>
+        ) : (
+          <>
+            GPAA Lifetime Membership benefits and any current promotional offers are
+            described on this site and confirmed at checkout.
+          </>
+        )}
       </p>
 
       <h2>Orders and payment</h2>

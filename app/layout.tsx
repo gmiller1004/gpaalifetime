@@ -5,6 +5,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { GaRouteTracker } from "@/components/analytics/GaRouteTracker";
 import { KlaviyoOnsite } from "@/components/analytics/KlaviyoOnsite";
 import { JsonLdSiteAndOrganization } from "@/components/seo/JsonLd";
+import { isSeptMemberActive } from "@/lib/septmember-cutover";
 import { shareImageMeta } from "@/lib/share-image";
 
 import "./globals.css";
@@ -29,47 +30,49 @@ const geistMono = Geist_Mono({
 
 const faviconSrc = "/brands/gpaa-gold-life.png";
 
-const rootDescription =
-  "Join GPAA for life: claims access, Gold Prospectors Magazine, chapters, and the SeptMember Founder Bag offer. Secure Shopify checkout at gpaalifetime.com.";
-
-export const metadata: Metadata = {
-  title: {
-    default: "GPAA Gold Life | Lifetime Membership",
-    template: "%s | GPAA Gold Life",
-  },
-  description: rootDescription,
-  keywords: [
-    "GPAA",
-    "Gold Life",
-    "GPAA Lifetime Membership",
-    "SeptMember",
-    "Founder Bag",
-    "gold prospecting",
-    "gold prospectors",
-  ],
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://gpaalifetime.com"
-  ),
-  robots: { index: true, follow: true },
-  icons: {
-    icon: [{ url: faviconSrc, type: "image/png", sizes: "1200x1200" }],
-    apple: [{ url: faviconSrc, type: "image/png", sizes: "180x180" }],
-    shortcut: faviconSrc,
-  },
-  openGraph: {
-    type: "website",
-    siteName: "GPAA Gold Life",
-    title: "GPAA Gold Life | Lifetime Membership",
+export function generateMetadata(): Metadata {
+  const septActive = isSeptMemberActive();
+  const rootDescription = septActive
+    ? "Join GPAA for life: claims access, Gold Prospectors Magazine, chapters, and the SeptMember Founder Bag offer. Secure Shopify checkout at gpaalifetime.com."
+    : "Join GPAA for life: claims access, Gold Prospectors Magazine, chapters, and member programs. Secure Shopify checkout at gpaalifetime.com.";
+  return {
+    title: {
+      default: "GPAA Gold Life | Lifetime Membership",
+      template: "%s | GPAA Gold Life",
+    },
     description: rootDescription,
-    images: [shareImageMeta],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "GPAA Gold Life | Lifetime Membership",
-    description: rootDescription,
-    images: [shareImageMeta.url],
-  },
-};
+    keywords: [
+      "GPAA",
+      "Gold Life",
+      "GPAA Lifetime Membership",
+      ...(septActive ? ["SeptMember", "Founder Bag"] : []),
+      "gold prospecting",
+      "gold prospectors",
+    ],
+    metadataBase: new URL(
+      process.env.NEXT_PUBLIC_SITE_URL ?? "https://gpaalifetime.com"
+    ),
+    robots: { index: true, follow: true },
+    icons: {
+      icon: [{ url: faviconSrc, type: "image/png", sizes: "1200x1200" }],
+      apple: [{ url: faviconSrc, type: "image/png", sizes: "180x180" }],
+      shortcut: faviconSrc,
+    },
+    openGraph: {
+      type: "website",
+      siteName: "GPAA Gold Life",
+      title: "GPAA Gold Life | Lifetime Membership",
+      description: rootDescription,
+      images: [shareImageMeta],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "GPAA Gold Life | Lifetime Membership",
+      description: rootDescription,
+      images: [shareImageMeta.url],
+    },
+  };
+}
 
 export default function RootLayout({
   children,

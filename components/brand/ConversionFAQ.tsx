@@ -1,10 +1,16 @@
 import { ChevronDownIcon } from "lucide-react";
 
-const faqs = [
-  {
-    q: "What is a Gold Life bundle?",
-    a: "You’re getting full GPAA Lifetime Membership—claims and lease access, the Mining Guide and Online Property Guide, Gold Prospectors Magazine, chapters, and member programs—bundled with the partner equipment on this page (Minelab, Garrett, Gold Cube, depending on which offer you chose). Pick the equipment option that matches your budget and ground, then complete one secure checkout.",
-  },
+const bundleFaq = {
+  q: "What is a Gold Life bundle?",
+  a: "You’re getting full GPAA Lifetime Membership—claims and lease access, the Mining Guide and Online Property Guide, Gold Prospectors Magazine, chapters, and member programs—bundled with the partner equipment on this page (Minelab, Garrett, Gold Cube, depending on which offer you chose). Pick the equipment option that matches your budget and ground, then complete one secure checkout.",
+};
+
+const membershipFaq = {
+  q: "What comes with GPAA Lifetime Membership?",
+  a: "Claims and lease access, the Mining Guide and Online Property Guide, Gold Prospectors Magazine, local chapters, and member programs—for life. Complete one secure checkout and you’re a member for good.",
+};
+
+const sharedFaqs = [
   {
     q: "Who can prospect with me on GPAA claims?",
     a: "Membership is structured for you, your spouse, children under 18, and guests—subject to current GPAA rules and each claim’s posting. Always read the latest member materials before you head out.",
@@ -23,7 +29,12 @@ const faqs = [
   },
 ];
 
-export function ConversionFAQ() {
+export function ConversionFAQ({
+  membershipOnly = false,
+}: {
+  membershipOnly?: boolean;
+}) {
+  const faqs = [membershipOnly ? membershipFaq : bundleFaq, ...sharedFaqs];
   return (
     <section className="border-b border-[var(--brand-border)] bg-[#fdfcf8] py-14 sm:py-20">
       <div className="mx-auto max-w-3xl px-4 sm:px-6">

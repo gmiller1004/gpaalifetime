@@ -6,6 +6,7 @@ import { BrandShell } from "@/components/layout/BrandShell";
 import { getBrandConfig, isBrandId } from "@/lib/brands";
 import {
   GPAA_SEPTMEMBER_GIVEAWAY_URL,
+  isSeptMemberActive,
   isSeptMemberOnly,
 } from "@/lib/septmember-cutover";
 import { brandCanonicalPath } from "@/lib/seo";
@@ -27,7 +28,8 @@ export async function generateMetadata({
   const c = getBrandConfig(brand);
   const id = brand as BrandId;
   const septOnly = isSeptMemberOnly();
-  const canonicalPath = septOnly ? undefined : brandCanonicalPath(id);
+  const canonicalPath =
+    septOnly && id !== "default" ? undefined : brandCanonicalPath(id);
   const partnerKeyword = c.displayName.split("×")[0]?.trim() ?? "";
   const keywords = [
     "GPAA",
@@ -86,6 +88,7 @@ export default async function BrandLayout({
   const h = await headers();
   const siteHost = h.get("x-forwarded-host") ?? h.get("host") ?? "";
   const septOnly = isSeptMemberOnly();
+  const septActive = isSeptMemberActive();
   return (
     <BrandShell
       brand={config}
@@ -93,7 +96,8 @@ export default async function BrandLayout({
       hidePartnerNav={septOnly}
       hideOtherBundles={septOnly}
       hidePromoChrome={septOnly}
-      giveawayHref={septOnly ? GPAA_SEPTMEMBER_GIVEAWAY_URL : undefined}
+      septMemberActive={septActive}
+      giveawayHref={septActive ? GPAA_SEPTMEMBER_GIVEAWAY_URL : undefined}
     >
       {children}
     </BrandShell>
