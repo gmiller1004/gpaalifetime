@@ -8,6 +8,7 @@ import { useCart } from "@/components/cart/cart-provider";
 import { trackBeginCheckout } from "@/lib/analytics";
 import { PAYDIRT_PROMO_ENABLED } from "@/lib/features";
 import { cn } from "@/lib/utils";
+import { cleanVariantTitle } from "@/lib/variant-display";
 import { Label } from "@/components/ui/label";
 import {
   Sheet,
@@ -161,9 +162,11 @@ export function CartDrawer() {
                     <p className="font-medium leading-snug text-[#1c1d1d]">
                       {line.merchandise.product.title}
                     </p>
-                    <p className="text-sm text-[var(--brand-muted)]">
-                      {line.merchandise.title}
-                    </p>
+                    {cleanVariantTitle(line.merchandise.title) ? (
+                      <p className="text-sm text-[var(--brand-muted)]">
+                        {cleanVariantTitle(line.merchandise.title)}
+                      </p>
+                    ) : null}
                     <p className="mt-1 text-sm tabular-nums text-[var(--brand-primary)]">
                       ×{line.quantity} ·{" "}
                       {line.merchandise.price.currencyCode}{" "}

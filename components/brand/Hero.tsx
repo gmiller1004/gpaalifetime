@@ -295,7 +295,8 @@ export function Hero({
               </div>
             ) : selected ? (
               <p className="mt-2 text-sm text-[var(--brand-body)]">
-                {variantLabel} · {formatMoney(selected)}
+                {variantLabel ? `${variantLabel} · ` : ""}
+                {formatMoney(selected)}
               </p>
             ) : (
               <p className="mt-2 text-sm text-amber-800">
